@@ -87,6 +87,7 @@ class Mail extends Base
     /**
      * Sets a template for body mail
      * If no template is passed, it will be used a standard template
+     * see Base::class
      * @param string $htmlTemplate
      */
     public function setTemplate($htmlTemplate)
