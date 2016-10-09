@@ -129,6 +129,14 @@ class Mail extends Base
         $dom->loadXML($xml);
         $root = $dom->documentElement;
         $name = $root->tagName;
+        $destinatario = '';
+        $data = '';
+        $numero = '';
+        $valor = '';
+        $emitente = '';
+        $chave = '';
+        $correcao = '';
+        $conduso = '';
         switch ($name) {
             case 'nfeProc':
             case 'NFe':
@@ -175,9 +183,9 @@ class Mail extends Base
         }
         //get email adresses from xml, if exists
         //may have one address in <dest><email>
-        $mail = $dom->getElementsByTagName('email')->item(0)->nodeValue;
+        $email = $dom->getElementsByTagName('email')->item(0)->nodeValue;
         if (! empty($mail)) {
-            $this->addresses[] = $mail;
+            $this->addresses[] = $email;
         }
         //may have others in <obsCont xCampo="email"><xTexto>fulano@yahoo.com.br</xTexto>
         $obs = $dom->getElementsByTagName('obsCont');
@@ -280,7 +288,6 @@ class Mail extends Base
         $mail->isHTML(true);
         $mail->Subject = $this->subject;
         $mail->Body    = $this->body;
-        //$mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
         if (!$mail->send()) {
             echo 'Message could not be sent.';
             echo 'Mailer Error: ' . $mail->ErrorInfo;
@@ -312,7 +319,7 @@ class Mail extends Base
      * @param string $xml
      * @param string $pdf
      * @param array $addresses
-     * @param string $htmlTemplate
+     * @param string $htmltemplate
      */
     public static function sendMail(stdClass $config, $xml, $pdf = '', array $addresses = [], $htmltemplate = '')
     {
