@@ -10,6 +10,8 @@ Outros requerem que os emails seja enviados a várias caixas postais.
 
 Esta parte da API se destina a prover essa facilidade, caso se deseje.
 
+[![Join the chat at https://gitter.im/nfephp-org/sped-mail](https://badges.gitter.im/nfephp-org/sped-mail.svg)](https://gitter.im/nfephp-org/sped-mail?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status][ico-travis]][link-travis]
 [![Coverage Status][ico-scrutinizer]][link-scrutinizer]
 [![Quality Score][ico-code-quality]][link-code-quality]
