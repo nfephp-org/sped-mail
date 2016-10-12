@@ -8,7 +8,6 @@ coding_style:
 filter:
     excluded_paths:
         - "vendor/*"
-        - "tests/*"
     paths:
         - "src/*"
 tools:
