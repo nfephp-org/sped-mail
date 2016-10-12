@@ -1,7 +1,5 @@
 # sped-mail
 
-[![Join the chat at https://gitter.im/nfephp-org/sped-mail](https://badges.gitter.im/nfephp-org/sped-mail.svg)](https://gitter.im/nfephp-org/sped-mail?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 O envio de emails é parte integrante das necessidades de quem opera com os serviços SPED.
 
 De acordo com a legislação é obrigatório o envio de emails contendo os xml das NFe e dos CTe aos seus repectivos destinatários.
