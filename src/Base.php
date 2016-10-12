@@ -118,6 +118,11 @@ class Base
      * @var string
      */
     protected $pdf;
+    /**
+     * config
+     * @var stdClass
+     */
+    protected $config;    
 
     /**
      * Render a template with valid data
