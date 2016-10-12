@@ -86,7 +86,7 @@ class Base
      * template user-defined
      * @var string
      */
-    protected $template;
+    public $template;
     /**
      * Type from xml document NFe, CTe or CCe
      * @var string
@@ -102,7 +102,7 @@ class Base
      * Fields from xml
      * @var stdClass
      */
-    protected $fields;
+    public $fields;
     /**
      * PHPMailer class
      * @var \PHPMailer
@@ -112,17 +112,17 @@ class Base
      * Xml content
      * @var string
      */
-    protected $xml;
+    public $xml;
     /**
      * PDF content
      * @var string
      */
-    protected $pdf;
+    public $pdf;
     /**
      * config
      * @var stdClass
      */
-    protected $config;    
+    protected $config;
 
     /**
      * Render a template with valid data

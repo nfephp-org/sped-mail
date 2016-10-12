@@ -6,8 +6,10 @@ use NFePHP\Mail\Mail;
 
 class MailTest extends \PHPUnit_Framework_TestCase
 {
+    const FIXTURES = '/fixtures';
     public $dummyMailer;
     public $config;
+    public $mail;
     
     public function __construct()
     {
@@ -25,21 +27,36 @@ class MailTest extends \PHPUnit_Framework_TestCase
         $this->dummyMailer = $this->getMockBuilder('\PHPMailer')
             ->setMethods(['send'])    
             ->getMock();
+        $this->dummyMailer->method('send')->willReturn(true);
+        $this->mail = new Mail($this->config, $this->dummyMailer);
     }
     
-    public function testSetTemplate()
+    public function testShouldInstantiate()
     {
-        $this->assertTrue(true);
+        $this->assertInstanceOf('\NFePHP\Mail\Mail', $this->mail);
+    }
+    
+    public function testLoadTemplate()
+    {
+        $expected = '<p>Teste</p>';
+        $this->mail->loadTemplate($expected);
+        $this->assertEquals($expected, $this->mail->template);
     }
     
     public function testLoadDocuments()
     {
-        $this->assertTrue(true);
+        $expected = file_get_contents(__DIR__ . self::FIXTURES.DIRECTORY_SEPARATOR.'nfe.xml');
+        $this->mail->loadDocuments($expected);
+        $this->assertEquals($expected, $this->mail->xml);
     }
     
+    /**
+     * @expectedException InvalidArgumentException
+     */
     public function testLoadDocumentsFail()
     {
-        $this->assertTrue(true);
+        $expected = file_get_contents(__DIR__ . self::FIXTURES.DIRECTORY_SEPARATOR.'response.xml');
+        $this->mail->loadDocuments($expected);
     }
     
     public function testSend()
@@ -47,8 +64,11 @@ class MailTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(true);
     }
     
-    public function testSendFail()
+    /**
+     * @expectedException RuntimeException
+     */
+    public function testSendFailNoValidAddress()
     {
-        $this->assertTrue(true);
+        $this->mail->send(['ROBERTO#fail', 'testefail.com.br']);
     }
 }

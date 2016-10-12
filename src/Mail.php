@@ -30,12 +30,12 @@ class Mail extends Base
      * Html Body mail message
      * @var string
      */
-    protected $body;
+    public $body;
     /**
      * Subject for email
      * @var string
      */
-    protected $subject;
+    public $subject;
     
     /**
      * Constructor
@@ -84,7 +84,7 @@ class Mail extends Base
      * see Base::class
      * @param string $htmlTemplate
      */
-    public function setTemplate($htmlTemplate)
+    public function loadTemplate($htmlTemplate)
     {
         if ($htmlTemplate != '') {
             $this->template = $htmlTemplate;
@@ -253,7 +253,7 @@ class Mail extends Base
     ) {
         $mail = new static($config, $mailer);
         $mail->loadDocuments($xml, $pdf);
-        $mail->setTemplate($htmltemplate);
+        $mail->loadTemplate($htmltemplate);
         $mail->send($addresses);
         return $mail;
     }
