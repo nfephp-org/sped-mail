@@ -108,6 +108,63 @@ class Base
      * @var \PHPMailer
      */
     protected $mail;
+    /**
+     * Xml content
+     * @var string
+     */
+    protected $xml;
+    /**
+     * PDF content
+     * @var string
+     */
+    protected $pdf;
+
+    /**
+     * Render a template with valid data
+     * @param string $template
+     * @param string $destinatario
+     * @param string $data
+     * @param string $numero
+     * @param string $valor
+     * @param string $chave
+     * @param string $correcao
+     * @param string $conduso
+     * @return string
+     */
+    protected function renderTemplate(
+        $template,
+        $destinatario = '',
+        $data = '',
+        $numero = '',
+        $valor = 0,
+        $chave = '',
+        $correcao = '',
+        $conduso = ''
+    ) {
+        $dt = new \DateTime(str_replace('T', ' ', $data));
+        $search = array(
+            '{destinatario}',
+            '{data}',
+            '{numero}',
+            '{valor}',
+            '{emitente}',
+            '{chave}',
+            '{correcao}',
+            '{conduso}'
+        );
+        $replace = array(
+          $destinatario,
+          $dt->format('d/m/Y'),
+          $numero,
+          number_format($valor, 2, ',', '.'),
+          $this->config->fantasy,
+          $chave,
+          $correcao,
+          $conduso
+        );
+        $template = str_replace($search, $replace, $template);
+        return $template;
+    }
     
     /**
      * Remove all invalid addresses
