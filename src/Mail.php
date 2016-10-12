@@ -17,6 +17,7 @@ namespace NFePHP\Mail;
 
 use stdClass;
 use DOMDocument;
+use DateTime;
 use InvalidArgumentException;
 use RuntimeException;
 use NFePHP\Mail\Base;
@@ -85,7 +86,7 @@ class Mail extends Base
     {
         $this->mail = $mailer;
         if (is_null($mailer)) {
-            $this->mail = new \PHPMailer();
+            $this->mail = new PHPMailer();
         }
         $this->config = $config;
         $this->loadService($config);
@@ -104,7 +105,7 @@ class Mail extends Base
      * Load parameters to PHPMailer class
      * @param stdClass $config
      */
-    private function loadService(stdClass $config)
+    protected function loadService(stdClass $config)
     {
         $this->mail->CharSet = 'UTF-8';
         $this->mail->isSMTP();
@@ -156,7 +157,7 @@ class Mail extends Base
      * @param string $xml
      * @throws InvalidArgumentException
      */
-    private function getXmlData($xml)
+    protected function getXmlData($xml)
     {
         $dom = new DOMDocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = false;
@@ -207,7 +208,7 @@ class Mail extends Base
         //may have one address in <dest><email>
         $email = !empty($dom->getElementsByTagName('email')->item(0)->nodeValue) ?
             $dom->getElementsByTagName('email')->item(0)->nodeValue : '';
-        if (! empty($mail)) {
+        if (! empty($email)) {
             $this->addresses[] = $email;
         }
         //may have others in <obsCont xCampo="email"><xTexto>fulano@yahoo.com.br</xTexto>
@@ -238,7 +239,7 @@ class Mail extends Base
      * @param string $conduso
      * @return string
      */
-    private function renderTemplate(
+    protected function renderTemplate(
         $template,
         $destinatario = '',
         $data = '',
@@ -275,14 +276,15 @@ class Mail extends Base
     
     /**
      * Set all addresses including those that exists in the xml document
-     * Send email only to listed addresses ignoring all email in xml
+     * Send email only to listed addresses ignoring all email addresses in xml
      * @param array $addresses
      */
-    private function setAddresses(array $addresses = [])
+    protected function setAddresses(array $addresses = [])
     {
         if (!empty($addresses)) {
             $this->addresses = $addresses;
         }
+        $this->removeInvalidAdresses();
     }
     
     /**
@@ -296,8 +298,10 @@ class Mail extends Base
     public function send(array $addresses = [])
     {
         $this->setAddresses($addresses);
-        //This resulted array should be repeated fields removed
-        $this->addresses = array_unique($this->addresses);
+        if (empty($this->addresses)) {
+            $msg = 'Não foram passados endereços de email validos !!';
+            throw new RuntimeException($msg);
+        }
         foreach ($this->addresses as $address) {
             $this->mail->addAddress($address);
         }
@@ -308,7 +312,7 @@ class Mail extends Base
         $this->mail->AltBody = Html2Text::convert($body);
         $this->attach();
         if (!$this->mail->send()) {
-            $msg = 'A menssagem não pode ser enviada. Error: ' . $this->mail->ErrorInfo;
+            $msg = 'A mensagem não pode ser enviada. Mail Error: ' . $this->mail->ErrorInfo;
             throw new RuntimeException($msg);
         }
         $this->mail->ClearAllRecipients();
@@ -317,10 +321,22 @@ class Mail extends Base
     }
     
     /**
+     * Remove all invalid addresses
+     */
+    protected function removeInvalidAdresses()
+    {
+        //This resulted array should be repeated fields removed
+        //and all not valid strings, and also trim and strtolower strings
+        $this->addresses = array_unique($this->addresses);
+        $this->addresses = array_map(array($this, 'clearAddressString'), $this->addresses);
+        $this->addresses = array_filter($this->addresses, array($this, 'checkEmailAddress'));
+    }
+    
+    /**
      * Build Message
      * @return string
      */
-    private function render()
+    protected function render()
     {
         //depending on the document a different template should be loaded
         //and having data patterns appropriately substituted
@@ -343,7 +359,7 @@ class Mail extends Base
     /**
      * Attach all documents to message
      */
-    private function attach()
+    protected function attach()
     {
         $this->mail->addStringAttachment(
             $this->xml,
