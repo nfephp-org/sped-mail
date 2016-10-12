@@ -11,6 +11,10 @@ class MailTest extends \PHPUnit_Framework_TestCase
     public $config;
     public $mail;
     
+    /**
+     * @covers NFePHP\Mail::__construct
+     * @covers NFePHP\Mail::loadservice
+     */
     public function __construct()
     {
         $this->config = new \stdClass();
@@ -42,7 +46,9 @@ class MailTest extends \PHPUnit_Framework_TestCase
         $this->mail->loadTemplate($expected);
         $this->assertEquals($expected, $this->mail->template);
     }
-    
+    /**
+     * @covers NFePHP\Mail::getXmlData
+     */
     public function testLoadDocuments()
     {
         $expected = file_get_contents(__DIR__ . self::FIXTURES.DIRECTORY_SEPARATOR.'nfe.xml');
@@ -59,6 +65,14 @@ class MailTest extends \PHPUnit_Framework_TestCase
         $this->mail->loadDocuments($expected);
     }
     
+    /**
+     * @covers NFePHP\Mail::renderTemplate
+     * @covers NFePHP\Mail::render
+     * @covers NFePHP\Mail::removeInvalidAdresses
+     * @covers NFePHP\Mail::attach
+     * @covers NFePHP\Mail::checkEmailAddress
+     * @covers NFePHP\Mail::clearAddressString
+     */
     public function testSend()
     {
         $this->assertTrue(true);
