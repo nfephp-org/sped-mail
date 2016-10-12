@@ -17,6 +17,7 @@ namespace NFePHP\Mail;
 
 use stdClass;
 use DOMDocument;
+use DateTime;
 use InvalidArgumentException;
 use RuntimeException;
 use NFePHP\Mail\Base;
@@ -85,7 +86,7 @@ class Mail extends Base
     {
         $this->mail = $mailer;
         if (is_null($mailer)) {
-            $this->mail = new \PHPMailer();
+            $this->mail = new PHPMailer();
         }
         $this->config = $config;
         $this->loadService($config);
@@ -207,7 +208,7 @@ class Mail extends Base
         //may have one address in <dest><email>
         $email = !empty($dom->getElementsByTagName('email')->item(0)->nodeValue) ?
             $dom->getElementsByTagName('email')->item(0)->nodeValue : '';
-        if (! empty($mail)) {
+        if (! empty($email)) {
             $this->addresses[] = $email;
         }
         //may have others in <obsCont xCampo="email"><xTexto>fulano@yahoo.com.br</xTexto>
@@ -275,7 +276,7 @@ class Mail extends Base
     
     /**
      * Set all addresses including those that exists in the xml document
-     * Send email only to listed addresses ignoring all email in xml
+     * Send email only to listed addresses ignoring all email addresses in xml
      * @param array $addresses
      */
     private function setAddresses(array $addresses = [])
@@ -298,6 +299,9 @@ class Mail extends Base
         $this->setAddresses($addresses);
         //This resulted array should be repeated fields removed
         $this->addresses = array_unique($this->addresses);
+        if (empty($this->addresses)) {
+            return true;
+        }
         foreach ($this->addresses as $address) {
             $this->mail->addAddress($address);
         }
