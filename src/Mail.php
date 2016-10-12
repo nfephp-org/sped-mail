@@ -31,27 +31,7 @@ class Mail extends Base
      * @var stdClass
      */
     protected $config;
-    /**
-     * template user-defined
-     * @var string
-     */
-    protected $template;
-    /**
-     * Type from xml document NFe, CTe or CCe
-     * @var string
-     */
-    protected $type;
-    /**
-     * Addresses to send mail
-     * This array should be repeated fields removed
-     * @var array
-     */
-    protected $addresses;
-    /**
-     * Fields from xml
-     * @var stdClass
-     */
-    protected $fields;
+
     /**
      * Html Body mail message
      * @var string
@@ -62,11 +42,7 @@ class Mail extends Base
      * @var string
      */
     protected $subject;
-    /**
-     * PHPMailer class
-     * @var \PHPMailer
-     */
-    protected $mail;
+
     /**
      * Xml content
      * @var string
@@ -320,58 +296,6 @@ class Mail extends Base
         return true;
     }
     
-    /**
-     * Remove all invalid addresses
-     */
-    protected function removeInvalidAdresses()
-    {
-        //This resulted array should be repeated fields removed
-        //and all not valid strings, and also trim and strtolower strings
-        $this->addresses = array_unique($this->addresses);
-        $this->addresses = array_map(array($this, 'clearAddressString'), $this->addresses);
-        $this->addresses = array_filter($this->addresses, array($this, 'checkEmailAddress'));
-    }
-    
-    /**
-     * Build Message
-     * @return string
-     */
-    protected function render()
-    {
-        //depending on the document a different template should be loaded
-        //and having data patterns appropriately substituted
-        $template = $this->templates[$this->type];
-        if (! empty($this->template)) {
-            $template = $this->template;
-        }
-        return $this->renderTemplate(
-            $template,
-            $this->fields->destinatario,
-            $this->fields->data,
-            $this->fields->numero,
-            $this->fields->valor,
-            $this->fields->chave,
-            $this->fields->correcao,
-            $this->fields->conduso
-        );
-    }
-    
-    /**
-     * Attach all documents to message
-     */
-    protected function attach()
-    {
-        $this->mail->addStringAttachment(
-            $this->xml,
-            $this->type . '.xml'
-        );
-        if (! empty($this->pdf)) {
-            $this->mail->addStringAttachment(
-                $this->xml,
-                $this->type . '.pdf'
-            );
-        }
-    }
     
     /**
      * Configure and send documents

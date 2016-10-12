@@ -24,6 +24,75 @@ Esta parte da API se destina a prover essa facilidade, caso se deseje.
 [![Stars][ico-stars]][link-stars]
 
 
+# Como instalar :
+
+Adicione este pacote com o composer, por linha de comando:
+```
+composer require nfephp-org/sped-mail
+```
+
+Ou adicione ao seu composer.json:
+```
+{
+	"require": {
+    	"nfephp-org/sped-mail": "^0.1"
+    }
+}
+```
+
+# Como usar :
+
+Essa classe pode ser usada de duas formas distintas.
+
+## 1 - Usando o método estatico:
+```php
+$resp = Mail::sendMail($config, $xml, $pdf, $addresses, $template);
+```
+Onde :
+$config é um stdClass contendo as configuração de seu SMTP (OBRIGATÓRIO)
+```php
+$config = new stdClass();
+$config->mail->host = 'smtp.test.com.br';
+$config->mail->user = 'usuario@test.com.br';
+$config->mail->password = 'senha';
+$config->mail->secure = 'tls';
+$config->mail->port = 587;
+$config->mail->from = 'usuario@test.com.br';
+$config->mail->fantasy = 'Test Ltda';
+$config->mail->replyTo = 'vendas@test.com.br';
+$config->mail->replyName = 'Vendas';
+```
+$xml é o path ou o conteudo do xml que se deseja enviar (OBRIGATÓRIO)
+```php
+$xml = '../nfe.xml';
+```
+ou ainda
+```php
+$xml = file_get_contents('../nfe.xml');
+```
+Idem para o $pdf (OPCIONAL)
+```php
+$pdf = '../nfe.pdf';
+```
+ou ainda
+```php
+$pdf = file_get_contents('../nfe.pdf');
+```
+
+$address é um array contendo os endereços de email para quem você deseja enviar a mensagem. Essas listas de email serão verificadas e os endereços que não forem validos serão descartados. Se não for passada uma lista de endereços o sistema irá procurar no XML pelos endereços e esses serão usados, se existirem. (OPCIONAL)
+```php
+$addresses = ['fulano@client.com.br'];
+```
+O template usado pode ser substituido pelo de sua escolha, usando o parametro $template (OPCIONAL).
+Use como referencia os templates padrões para criar o seu veja isso na classe Base.php
+```php
+$template = '<p>Meu HTML {emitente} .... ';
+```
+
+Para maiores detalhes veja os exemplos indicados na pasta examples.
+
+>####NOTA: Em caso de falha será retornado um EXCEPTION
+
 [ico-stars]: https://img.shields.io/github/stars/nfephp-org/sped-mail.svg?style=flat-square
 [ico-forks]: https://img.shields.io/github/forks/nfephp-org/sped-mail.svg?style=flat-square
 [ico-issues]: https://img.shields.io/github/issues/nfephp-org/sped-mail.svg?style=flat-square
