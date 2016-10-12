@@ -16,11 +16,12 @@ namespace NFePHP\Mail;
  */
 
 use stdClass;
-use PHPMailer;
-use NFePHP\Mail\Base;
 use DOMDocument;
 use InvalidArgumentException;
 use RuntimeException;
+use NFePHP\Mail\Base;
+use PHPMailer;
+use Html2Text\Html2Text;
 
 class Mail extends Base
 {
@@ -300,13 +301,34 @@ class Mail extends Base
         foreach ($this->addresses as $address) {
             $this->mail->addAddress($address);
         }
+        $body = $this->render();
+        $this->mail->isHTML(true);
+        $this->mail->Subject = $this->subject;
+        $this->mail->Body = $body;
+        $this->mail->AltBody = Html2Text::convert($body);
+        $this->attach();
+        if (!$this->mail->send()) {
+            $msg = 'A menssagem não pode ser enviada. Error: ' . $this->mail->ErrorInfo;
+            throw new RuntimeException($msg);
+        }
+        $this->mail->ClearAllRecipients();
+        $this->mail->ClearAttachments();
+        return true;
+    }
+    
+    /**
+     * Build Message
+     * @return string
+     */
+    private function render()
+    {
         //depending on the document a different template should be loaded
         //and having data patterns appropriately substituted
         $template = $this->templates[$this->type];
         if (! empty($this->template)) {
             $template = $this->template;
         }
-        $this->body = $this->renderTemplate(
+        return $this->renderTemplate(
             $template,
             $this->fields->destinatario,
             $this->fields->data,
@@ -316,17 +338,6 @@ class Mail extends Base
             $this->fields->correcao,
             $this->fields->conduso
         );
-        $this->mail->isHTML(true);
-        $this->mail->Subject = $this->subject;
-        $this->mail->Body = $this->body;
-        $this->attach();
-        if (!$this->mail->send()) {
-            $msg = 'A menssagem não pode ser enviada. Error: ' . $this->mail->ErrorInfo;
-            throw new RuntimeException($msg);
-        }
-        $this->mail->ClearAllRecipients();
-        $this->mail->ClearAttachments();
-        return true;
     }
     
     /**
