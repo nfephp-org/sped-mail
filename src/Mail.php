@@ -162,13 +162,6 @@ class Mail extends Base
         $dom->loadXML($xml);
         $root = $dom->documentElement;
         $name = $root->tagName;
-        $destinatario = '';
-        $data = '';
-        $numero = '';
-        $valor = 0;
-        $chave = '';
-        $correcao = '';
-        $conduso = '';
         switch ($name) {
             case 'nfeProc':
             case 'NFe':
@@ -328,7 +321,7 @@ class Mail extends Base
         $this->mail->Body = $this->body;
         $this->attach();
         if (!$this->mail->send()) {
-            $msg = 'A menssagem não pode ser enviada. Error: ' . $mail->ErrorInfo;
+            $msg = 'A menssagem não pode ser enviada. Error: ' . $this->mail->ErrorInfo;
             throw new RuntimeException($msg);
         }
         $this->mail->ClearAllRecipients();
