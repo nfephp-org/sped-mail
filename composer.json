@@ -19,7 +19,8 @@
     ],
     "require": {
         "php" : "~5.6|~7.0",
-        "phpmailer/phpmailer": "^5.2"
+        "phpmailer/phpmailer": "^5.2",
+        "soundasleep/html2text": "~0.3"
     },
     "require-dev": {
         "squizlabs/php_codesniffer": "^2.6",
