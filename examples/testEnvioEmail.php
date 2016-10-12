@@ -16,8 +16,36 @@ $config->replyName = 'Roberto';
 
 use NFePHP\Mail\Mail;
 
-$mail = new Mail($config);
-$htmlTemplate = ''; //use isso para inserir seu próprio template HTML com os campos corretos para serem substituidos
-$mail->setTemplate($htmlTemplate);
-$mail->send($address);
+try {
+    //a configuração é uma stdClass com os campos acima indicados
+    //esse parametro é OBRIGATÓRIO
+    $mail = new Mail($config);
+    
+    //use isso para inserir seu próprio template HTML com os campos corretos 
+    //para serem substituidos em execução com os dados dos xml
+    $htmlTemplate = '';
+    $mail->setTemplate($htmlTemplate);
+
+    //aqui são passados os documentos, tanto pode ser um path como o conteudo
+    //desses documentos
+    $xml = 'nfe.xml';
+    $pdf = '';//não é obrigatório passar o PDF, tendo em vista que é uma BOBAGEM
+    $mail->loadDocuments($xml, $pdf);
+    
+    //se não for passado esse array serão enviados apenas os emails
+    //que estão contidos no XML, isto se existirem
+    $addresses = ['seu@email.com.br'];
+    //se esse array for passado serão enviados emails para os endereços indicados apenas
+    //e os endereços contidos no xml serão ignorados
+    
+    //envia emails
+    $mail->send($addresses);
+    
+} catch (InvalidArgumentException $e) {
+    echo "Falha: " . $e->getMessage();
+} catch (RuntimeException $e) {
+    echo "Falha: " . $e->getMessage();
+}  
+
+
 

@@ -81,4 +81,25 @@ class Base
                 "<p>Atenciosamente,</p>".
                 "<p>{emitente}</p>"
     ];
+    
+    /**
+     * Returns only valid email string
+     * @param string $email
+     * @return boolean
+     */
+    protected function checkEmailAddress($email)
+    {
+        return filter_var($email, FILTER_VALIDATE_EMAIL);
+    }
+    
+    /**
+     * Format email address string removing garbage and
+     * set to lower characters
+     * @param string $email
+     * @return string
+     */
+    protected function clearAddressString($email)
+    {
+        return preg_replace('/[ ,;:]+/', '', strtolower($email));
+    }
 }
