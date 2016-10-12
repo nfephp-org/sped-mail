@@ -27,12 +27,6 @@ use Html2Text\Html2Text;
 class Mail extends Base
 {
     /**
-     * config
-     * @var stdClass
-     */
-    protected $config;
-
-    /**
      * Html Body mail message
      * @var string
      */
