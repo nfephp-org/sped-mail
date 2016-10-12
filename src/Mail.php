@@ -57,7 +57,7 @@ class Mail extends Base
     
     /**
      * Load parameters to PHPMailer class
-     * @param stdClass $config
+     * @param \stdClass $config
      */
     protected function loadService(\stdClass $config)
     {
