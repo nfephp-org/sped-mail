@@ -4,15 +4,15 @@ ini_set('display_errors', 'On');
 require_once '../bootstrap.php';
 
 $config = new stdClass();
-$config->host = 'email-ssl.com.br';
-$config->user = 'roberto@fimatec.com.br';
-$config->password = 'Q!w2e3R$';
-$config->secure = 'tls';
-$config->port = 587;
-$config->from = 'roberto@fimatec.com.br';
-$config->fantasy = 'Fimatec Ltda';
-$config->replyTo = 'roberto@fimatec.com.br';
-$config->replyName = 'Roberto';
+$config->mail->host = 'smtp.test.com.br';
+$config->mail->user = 'usuario@test.com.br';
+$config->mail->password = 'senha';
+$config->mail->secure = 'tls';
+$config->mail->port = 587;
+$config->mail->from = 'usuario@test.com.br';
+$config->mail->fantasy = 'Test Ltda';
+$config->mail->replyTo = 'vendas@test.com.br';
+$config->mail->replyName = 'Vendas';
 
 use NFePHP\Mail\Mail;
 
