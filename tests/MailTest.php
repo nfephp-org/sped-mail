@@ -37,7 +37,7 @@ class MailTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue(true);
     }
     
-    public function testLOadDocumentsFail()
+    public function testLoadDocumentsFail()
     {
         $this->assertTrue(true);
     }
