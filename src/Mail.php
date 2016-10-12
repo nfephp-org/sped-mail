@@ -16,21 +16,40 @@ namespace NFePHP\Mail;
  */
 
 use stdClass;
+use PHPMailer;
 use NFePHP\Mail\Base;
+use DOMDocument;
+use InvalidArgumentException;
+use RuntimeException;
 
 class Mail extends Base
 {
+    /**
+     * config
+     * @var stdClass
+     */
+    protected $config;
     /**
      * template user-defined
      * @var string
      */
     protected $template;
     /**
+     * Type from xml document NFe, CTe or CCe
+     * @var string
+     */
+    protected $type;
+    /**
      * Addresses to send mail
      * This array should be repeated fields removed
      * @var array
      */
     protected $addresses;
+    /**
+     * Fields from xml
+     * @var stdClass
+     */
+    protected $fields;
     /**
      * Html Body mail message
      * @var string
@@ -56,14 +75,28 @@ class Mail extends Base
      * @var string
      */
     protected $pdf;
-
+    
     /**
      * Constructor
      * @param \stdClass $config
      */
-    public function __construct(stdClass $config)
+    public function __construct(stdClass $config, PHPMailer $mailer = null)
     {
+        $this->mail = $mailer;
+        if (is_null($mailer)) {
+            $this->mail = new \PHPMailer();
+        }
+        $this->config = $config;
         $this->loadService($config);
+        $this->fields = new stdClass();
+        $this->fields->destinatario = '';
+        $this->fields->data = '';
+        $this->fields->numero = '';
+        $this->fields->valor = 0;
+        $this->fields->chave = '';
+        $this->fields->data = '';
+        $this->fields->correcao = '';
+        $this->fields->conduso = '';
     }
     
     /**
@@ -72,16 +105,16 @@ class Mail extends Base
      */
     private function loadService(stdClass $config)
     {
-        $this->mail = new \PHPMailer();
+        $this->mail->CharSet = 'UTF-8';
         $this->mail->isSMTP();
-        $this->mail->Host = $config->mail->host;
+        $this->mail->Host = $config->host;
         $this->mail->SMTPAuth = true;
-        $this->mail->Username = $config->mail->user;
-        $this->mail->Password = $config->mail->password;
-        $this->mail->SMTPSecure = $config->mail->secure;
-        $this->mail->Port = $config->mail->port;
-        $this->mail->setFrom($config->mail->from, $config->mail->fantasy);
-        $this->mail->addReplyTo($config->mail->replyTo, $config->mail->replyName);
+        $this->mail->Username = $config->user;
+        $this->mail->Password = $config->password;
+        $this->mail->SMTPSecure = $config->secure;
+        $this->mail->Port = $config->port;
+        $this->mail->setFrom($config->from, $config->fantasy);
+        $this->mail->addReplyTo($config->replyTo, $config->replyName);
     }
     
     /**
@@ -120,11 +153,11 @@ class Mail extends Base
     /**
      * Search xml for data
      * @param string $xml
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     private function getXmlData($xml)
     {
-        $dom = new \DOMDocument('1.0', 'UTF-8');
+        $dom = new DOMDocument('1.0', 'UTF-8');
         $dom->preserveWhiteSpace = false;
         $dom->loadXML($xml);
         $root = $dom->documentElement;
@@ -132,58 +165,54 @@ class Mail extends Base
         $destinatario = '';
         $data = '';
         $numero = '';
-        $valor = '';
-        $emitente = '';
+        $valor = 0;
         $chave = '';
         $correcao = '';
         $conduso = '';
         switch ($name) {
             case 'nfeProc':
             case 'NFe':
-                $id = 'NFe';
-                $destinatario = $dom->getElementsByTagName('dest')->item(0)
+                $type = 'NFe';
+                $this->fields->destinatario = $dom->getElementsByTagName('dest')->item(0)
                     ->getElementsByTagName('xNome')->item(0)->nodeValue;
-                $data = $dom->getElementsByTagName('ide')->item(0)
+                $this->fields->data = $dom->getElementsByTagName('ide')->item(0)
                     ->getElementsByTagName('dhEmi')->item(0)->nodeValue;
-                $numero = $dom->getElementsByTagName('ide')->item(0)
+                $this->fields->numero = $dom->getElementsByTagName('ide')->item(0)
                      ->getElementsByTagName('nNF')->item(0)->nodeValue;
-                $valor = $dom->getElementsByTagName('vNF')->item(0)->nodeValue;
-                $emitente = $dom->getElementsByTagName('emit')->item(0)
-                    ->getElementsByTagName('xNome')->item(0)->nodeValue;
-                $this->subject = "NFe n. $numero $emitente";
+                $this->fields->valor = $dom->getElementsByTagName('vNF')->item(0)->nodeValue;
+                $this->subject = "NFe n. ".$this->fields->numero." - ".$this->config->fantasy;
                 break;
             case 'cteProc':
             case 'CTe':
-                $id = 'CTe';
-                $destinatario = $dom->getElementsByTagName('dest')->item(0)
+                $type = 'CTe';
+                $this->fields->destinatario = $dom->getElementsByTagName('dest')->item(0)
                     ->getElementsByTagName('xNome')->item(0)->nodeValue;
-                $data = $dom->getElementsByTagName('ide')->item(0)
+                $this->fields->data = $dom->getElementsByTagName('ide')->item(0)
                     ->getElementsByTagName('dhEmi')->item(0)->nodeValue;
-                $numero = $dom->getElementsByTagName('ide')->item(0)
+                $this->fields->numero = $dom->getElementsByTagName('ide')->item(0)
                     ->getElementsByTagName('nCT')->item(0)->nodeValue;
-                $valor = $dom->getElementsByTagName('vRec')->item(0)->nodeValue;
-                $emitente = $dom->getElementsByTagName('emit')->item(0)
-                    ->getElementsByTagName('xNome')->item(0)->nodeValue;
-                $this->subject = "CTe n. $numero $emitente";
+                $this->fields->valor = $dom->getElementsByTagName('vRec')->item(0)->nodeValue;
+                $this->subject = "CTe n. ".$this->fields->numero." - ".$this->config->fantasy;
                 break;
             case 'procEventoNFe':
             case 'procEventoCTe':
-                $id = 'CCe';
-                $chave = $dom->getElementsByTagName('chNFe')->item(0)->nodeValue;
-                $data = $dom->getElementsByTagName('dhEvento')->item(0)->nodeValue;
-                $correcao = $dom->getElementsByTagName('xCorrecao')->item(0)->nodeValue;
-                $conduso = $dom->getElementsByTagName('xCondUso')->item(0)->nodeValue;
-                if (empty($chave)) {
-                    $chave = $dom->getElementsByTagName('chCTe')->item(0)->nodeValue;
+                $type = 'CCe';
+                $this->fields->chave = $dom->getElementsByTagName('chNFe')->item(0)->nodeValue;
+                $this->fields->data = $dom->getElementsByTagName('dhEvento')->item(0)->nodeValue;
+                $this->fields->correcao = $dom->getElementsByTagName('xCorrecao')->item(0)->nodeValue;
+                $this->fields->conduso = $dom->getElementsByTagName('xCondUso')->item(0)->nodeValue;
+                if (empty($this->fields->chave)) {
+                    $this->fields->chave = $dom->getElementsByTagName('chCTe')->item(0)->nodeValue;
                 }
-                $this->subject = "Carta de Correção: $chave";
+                $this->subject = "Carta de Correção ". $this->config->fantasy;
                 break;
             default:
-                $id = '';
+                $type = '';
         }
         //get email adresses from xml, if exists
         //may have one address in <dest><email>
-        $email = $dom->getElementsByTagName('email')->item(0)->nodeValue;
+        $email = !empty($dom->getElementsByTagName('email')->item(0)->nodeValue) ?
+            $dom->getElementsByTagName('email')->item(0)->nodeValue : '';
         if (! empty($mail)) {
             $this->addresses[] = $email;
         }
@@ -195,28 +224,12 @@ class Mail extends Base
             }
         }
         //xml may be a NFe or a CTe or a CCe nothing else
-        if ($id != 'NFe' && $id != 'CTe' && $id != 'CCe') {
+        if ($type != 'NFe' && $type != 'CTe' && $type != 'CCe') {
             $msg = "Você deve passar apenas uma NFe ou um CTe ou um CCe. "
                     . "Esse documento não foi reconhecido.";
-            throw new \InvalidArgumentException($msg);
+            throw new InvalidArgumentException($msg);
         }
-        //depending on the document a different template should be loaded
-        //and having data patterns appropriately substituted
-        $template = $this->templates[$id];
-        if (! empty($this->template)) {
-            $template = $this->template;
-        }
-        $this->body = $this->renderTemplate(
-            $template,
-            $destinatario,
-            $data,
-            $numero,
-            $valor,
-            $emitente,
-            $chave,
-            $correcao,
-            $conduso
-        );
+        $this->type = $type;
     }
     
     /**
@@ -226,7 +239,6 @@ class Mail extends Base
      * @param string $data
      * @param string $numero
      * @param string $valor
-     * @param string $emitente
      * @param string $chave
      * @param string $correcao
      * @param string $conduso
@@ -237,8 +249,7 @@ class Mail extends Base
         $destinatario = '',
         $data = '',
         $numero = '',
-        $valor = '',
-        $emitente = '',
+        $valor = 0,
         $chave = '',
         $correcao = '',
         $conduso = ''
@@ -249,14 +260,20 @@ class Mail extends Base
             '{data}',
             '{numero}',
             '{valor}',
-            '{emitente}'
+            '{emitente}',
+            '{chave}',
+            '{correcao}',
+            '{conduso}'
         );
         $replace = array(
           $destinatario,
           $dt->format('d/m/Y'),
           $numero,
           number_format($valor, 2, ',', '.'),
-          $emitente
+          $this->config->fantasy,
+          $chave,
+          $correcao,
+          $conduso
         );
         $template = str_replace($search, $replace, $template);
         return $template;
@@ -264,18 +281,23 @@ class Mail extends Base
     
     /**
      * Set all addresses including those that exists in the xml document
+     * Send email only to listed addresses ignoring all email in xml
      * @param array $addresses
      */
     private function setAddresses(array $addresses = [])
     {
-        $this->addresses[] = $addresses;
+        if (!empty($addresses)) {
+            $this->addresses = $addresses;
+        }
     }
     
     /**
      * Send mail
-     * If no parameter was passed only the email address contained in
-     * the xml will be used, if there is
+     * If no parameter was passed, only the email address contained in
+     * the xml will be used
      * @param array $addresses
+     * @return boolean
+     * @throws RuntimeException
      */
     public function send(array $addresses = [])
     {
@@ -285,15 +307,33 @@ class Mail extends Base
         foreach ($this->addresses as $address) {
             $this->mail->addAddress($address);
         }
-        $mail->isHTML(true);
-        $mail->Subject = $this->subject;
-        $mail->Body    = $this->body;
-        if (!$mail->send()) {
-            echo 'Message could not be sent.';
-            echo 'Mailer Error: ' . $mail->ErrorInfo;
-        } else {
-            echo 'Message has been sent';
+        //depending on the document a different template should be loaded
+        //and having data patterns appropriately substituted
+        $template = $this->templates[$this->type];
+        if (! empty($this->template)) {
+            $template = $this->template;
         }
+        $this->body = $this->renderTemplate(
+            $template,
+            $this->fields->destinatario,
+            $this->fields->data,
+            $this->fields->numero,
+            $this->fields->valor,
+            $this->fields->chave,
+            $this->fields->correcao,
+            $this->fields->conduso
+        );
+        $this->mail->isHTML(true);
+        $this->mail->Subject = $this->subject;
+        $this->mail->Body = $this->body;
+        $this->attach();
+        if (!$this->mail->send()) {
+            $msg = 'A menssagem não pode ser enviada. Error: ' . $mail->ErrorInfo;
+            throw new RuntimeException($msg);
+        }
+        $this->mail->ClearAllRecipients();
+        $this->mail->ClearAttachments();
+        return true;
     }
     
     /**
@@ -303,12 +343,12 @@ class Mail extends Base
     {
         $this->mail->addStringAttachment(
             $this->xml,
-            'document.xml'
+            $this->type . '.xml'
         );
         if (! empty($this->pdf)) {
             $this->mail->addStringAttachment(
                 $this->xml,
-                'document.pdf'
+                $this->type . '.pdf'
             );
         }
     }
@@ -316,14 +356,22 @@ class Mail extends Base
     /**
      * Configure and send documents
      * @param stdClass $config
-     * @param string $xml
-     * @param string $pdf
+     * @param type $xml
+     * @param type $pdf
      * @param array $addresses
-     * @param string $htmltemplate
+     * @param type $htmltemplate
+     * @param PHPMailer $mailer
+     * @return \static
      */
-    public static function sendMail(stdClass $config, $xml, $pdf = '', array $addresses = [], $htmltemplate = '')
-    {
-        $mail = new static($config);
+    public static function sendMail(
+        stdClass $config,
+        $xml,
+        $pdf = '',
+        array $addresses = [],
+        $htmltemplate = '',
+        PHPMailer $mailer = null
+    ) {
+        $mail = new static($config, $mailer);
         $mail->loadDocuments($xml, $pdf);
         $mail->setTemplate($htmltemplate);
         $mail->send($addresses);

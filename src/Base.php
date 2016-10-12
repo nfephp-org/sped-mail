@@ -9,7 +9,7 @@ class Base
      * @var array
      */
     protected $templates = [
-        'NFe'=> "<p><b>Prezados {contato},</b></p>".
+        'NFe'=> "<p><b>Prezados {destinatario},</b></p>".
                 "<p>Você está recebendo a Nota Fiscal Eletrônica emitida em {data} com o número ".
                 "{numero}, de {emitente}, no valor de R$ {valor}. ".
                 "Junto com a mercadoria, você receberá também um DANFE (Documento ".
@@ -41,7 +41,7 @@ class Base
                 "<p>Atenciosamente,</p>".
                 "<p>{emitente}</p>",
         
-        'CTe'=> "<p><b>Prezados {contato},</b></p>".
+        'CTe'=> "<p><b>Prezados {destinatario},</b></p>".
                 "<p>Você está recebendo um Conhecimento de Transporte Eletrônico emitido em {data} com o número ".
                 "{numero}, de {emitente}, no valor de R$ {valor}. ".
                 "Junto com a mercadoria, você receberá também um DACTE (Documento ".
@@ -74,13 +74,11 @@ class Base
                 "<p>{emitente}</p>",
                 
         'CCe'=> "<p><b>Prezados,</b></p>".
-                "<p>Você está recebendo uma Carta de Correção referente ao nosso documento" .
-                "{chave}, essa carta de correção datada de {data} procura corrigir:</p> ".
-                "<br>" .
+                "<p>Você está recebendo uma Carta de Correção referente ao nosso documento " .
+                "{chave}.</p><p>Essa carta de correção datada de {data} procura corrigir:</p> ".
                 "<p><b>{correcao}</b></p>".
-                "<br>" .
                 "<p><i>{conduso}</i></p>" .
-                "<br>".
-                "<p>Atenciosamente</p>"
+                "<p>Atenciosamente,</p>".
+                "<p>{emitente}</p>"
     ];
 }
