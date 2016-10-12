@@ -100,7 +100,7 @@ class Base
     protected $addresses;
     /**
      * Fields from xml
-     * @var stdClass
+     * @var \stdClass
      */
     public $fields;
     /**
@@ -120,7 +120,7 @@ class Base
     public $pdf;
     /**
      * config
-     * @var stdClass
+     * @var \stdClass
      */
     protected $config;
 
