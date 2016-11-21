@@ -118,29 +118,23 @@ class Mail extends Base
         $dom->loadXML($xml);
         $root = $dom->documentElement;
         $name = $root->tagName;
+        $dest = $dom->getElementsByTagName('dest')->item(0);
+        $ide = $dom->getElementsByTagName('ide')->item(0);
         switch ($name) {
             case 'nfeProc':
             case 'NFe':
                 $type = 'NFe';
-                $this->fields->destinatario = $dom->getElementsByTagName('dest')->item(0)
-                    ->getElementsByTagName('xNome')->item(0)->nodeValue;
-                $this->fields->data = $dom->getElementsByTagName('ide')->item(0)
-                    ->getElementsByTagName('dhEmi')->item(0)->nodeValue;
-                $this->fields->numero = $dom->getElementsByTagName('ide')->item(0)
-                    ->getElementsByTagName('nNF')->item(0)->nodeValue;
+                $this->fields->numero = $ide->getElementsByTagName('nNF')->item(0)->nodeValue;
                 $this->fields->valor = $dom->getElementsByTagName('vNF')->item(0)->nodeValue;
+                $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
                 $this->subject = "NFe n. " . $this->fields->numero . " - " . $this->config->fantasy;
                 break;
             case 'cteProc':
             case 'CTe':
                 $type = 'CTe';
-                $this->fields->destinatario = $dom->getElementsByTagName('dest')->item(0)
-                    ->getElementsByTagName('xNome')->item(0)->nodeValue;
-                $this->fields->data = $dom->getElementsByTagName('ide')->item(0)
-                    ->getElementsByTagName('dhEmi')->item(0)->nodeValue;
-                $this->fields->numero = $dom->getElementsByTagName('ide')->item(0)
-                    ->getElementsByTagName('nCT')->item(0)->nodeValue;
+                $this->fields->numero = $ide->getElementsByTagName('nCT')->item(0)->nodeValue;
                 $this->fields->valor = $dom->getElementsByTagName('vRec')->item(0)->nodeValue;
+                $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
                 $this->subject = "CTe n. " . $this->fields->numero . " - " . $this->config->fantasy;
                 break;
             case 'procEventoNFe':
@@ -160,8 +154,11 @@ class Mail extends Base
         }
         //get email adresses from xml, if exists
         //may have one address in <dest><email>
-        $email = !empty($dom->getElementsByTagName('email')->item(0)->nodeValue) ?
-            $dom->getElementsByTagName('email')->item(0)->nodeValue : '';
+        if (!empty($dest)) {
+            $this->fields->destinatario = $dest->getElementsByTagName('xNome')->item(0)->nodeValue;
+            $email = !empty($dest->getElementsByTagName('email')->item(0)->nodeValue) ?
+                $dest->getElementsByTagName('email')->item(0)->nodeValue : '';
+        }
         if (!empty($email)) {
             $this->addresses[] = $email;
         }
@@ -190,7 +187,7 @@ class Mail extends Base
     protected function setAddresses(array $addresses = [])
     {
         if (!empty($addresses)) {
-            $this->addresses = $addresses;
+            $this->addresses = array_merge($this->addresses, $addresses);
         }
         $this->removeInvalidAdresses();
     }

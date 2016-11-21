@@ -97,7 +97,7 @@ class Base
      * This array should be repeated fields removed
      * @var array
      */
-    protected $addresses;
+    protected $addresses = [];
     /**
      * Fields from xml
      * @var \stdClass

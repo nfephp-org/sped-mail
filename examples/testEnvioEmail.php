@@ -41,9 +41,11 @@ try {
     //envia emails
     $mail->send($addresses);
     
-} catch (InvalidArgumentException $e) {
+} catch (\InvalidArgumentException $e) {
     echo "Falha: " . $e->getMessage();
-} catch (RuntimeException $e) {
+} catch (\RuntimeException $e) {
+    echo "Falha: " . $e->getMessage();
+} catch (\Exception $e) {
     echo "Falha: " . $e->getMessage();
 }  
 
