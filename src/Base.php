@@ -218,8 +218,10 @@ class Base
         );
         if (!empty($this->pdf)) {
             $this->mail->addStringAttachment(
-                $this->xml,
-                $this->type . '.pdf'
+                $this->pdf,
+                $this->type . '.pdf',
+                'base64',
+                'application/pdf'
             );
         }
     }
