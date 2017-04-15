@@ -103,7 +103,7 @@ Pordemos enviar os emails para vários destinatários basicamente de duas maneir
 ## 1 - Indicando todos os destinatários no próprio XML do documento
 Neste caso podemos fazer uso da tag &lt;obsCont&gt; podem existir dezenas desses campos no xml, essa com certeza é a manira mais inteligente de indicar vários destinários, pois podem ser lidos diretamente do xml.
 
-Veja que o tipo do campo xCampo="email" passa a ser obrigatório para que possamos identificar o qeu está no seu conteúdo.
+Veja que o tipo do campo xCampo="email" passa a ser obrigatório para que possamos identificar que este campo indica um email.
 
 ```xml
  <obsCont xCampo="email">
