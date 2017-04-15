@@ -66,6 +66,7 @@ class MailTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
+     * @covers NFePHP\Base::<protected>
      * @covers NFePHP\Mail::renderTemplate
      * @covers NFePHP\Mail::render
      * @covers NFePHP\Mail::removeInvalidAdresses
