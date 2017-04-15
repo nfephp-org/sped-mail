@@ -80,7 +80,9 @@ ou ainda
 $pdf = file_get_contents('../nfe.pdf');
 ```
 
-$address é um array contendo os endereços de email para quem você deseja enviar a mensagem. Essas listas de email serão verificadas e os endereços que não forem validos serão descartados. Se não for passada uma lista de endereços o sistema irá procurar no XML pelos endereços e esses serão usados, se existirem. (OPCIONAL)
+$address é um array contendo os endereços de email para quem você deseja enviar a mensagem. 
+Essas listas de email serão verificadas e os endereços que não forem validos serão descartados.
+Se não for passada uma lista de endereços o sistema irá procurar no XML pelos endereços e esses serão usados, se existirem. (OPCIONAL)
 ```php
 $addresses = ['fulano@client.com.br'];
 ```
@@ -92,7 +94,25 @@ $template = '<p>Meu HTML {emitente} .... ';
 
 Para maiores detalhes veja os exemplos indicados na pasta examples.
 
->####NOTA: Em caso de falha será retornado um EXCEPTION
+> #### NOTA: Em caso de falha será retornado um EXCEPTION
+
+# Como enviar para vários destinatários
+
+Pordemos enviar os emails para vários destinatários basicamente de duas maneiras diferentes:
+
+## 1 - Indicando todos os destinatários no próprio XML do documento
+Neste caso podemos fazer uso da tag \<Obscont\> podem existir dezenas desses campos no xml, essa com certeza é a manira mais inteligente de indicar vários destinários, pois podem ser lidos diretamente do xml.
+
+```xml
+ <obsCont xCampo="email">
+     <xTexto>fulano@yahoo.com.br</xTexto>
+ </obsCont>
+```
+
+
+## 2 - Passando os endereços adicionais em um array nesta classe
+Essa forma já foi indicada acima na variável $addresses = [];
+
 
 [ico-stars]: https://img.shields.io/github/stars/nfephp-org/sped-mail.svg?style=flat-square
 [ico-forks]: https://img.shields.io/github/forks/nfephp-org/sped-mail.svg?style=flat-square
