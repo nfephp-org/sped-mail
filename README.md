@@ -35,7 +35,7 @@ composer require nfephp-org/sped-mail
 Ou adicione ao seu composer.json:
 ```
 {
-	"require": {
+    "require": {
     	"nfephp-org/sped-mail": "^0.1"
     }
 }
