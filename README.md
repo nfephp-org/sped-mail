@@ -113,7 +113,7 @@ Veja que o tipo do campo xCampo="email" passa a ser obrigatório para que possam
 
 
 ## 2 - Passando os endereços adicionais em um array nesta classe
-Essa forma já foi indicada acima na variável $addresses = [];
+Essa forma já foi indicada acima na variável $addresses = [ ... ];
 
 
 [ico-stars]: https://img.shields.io/github/stars/nfephp-org/sped-mail.svg?style=flat-square
