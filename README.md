@@ -35,7 +35,7 @@ composer require nfephp-org/sped-mail
 Ou adicione ao seu composer.json:
 ```
 {
-	"require": {
+    "require": {
     	"nfephp-org/sped-mail": "^0.1"
     }
 }
@@ -101,7 +101,9 @@ Para maiores detalhes veja os exemplos indicados na pasta examples.
 Pordemos enviar os emails para vários destinatários basicamente de duas maneiras diferentes:
 
 ## 1 - Indicando todos os destinatários no próprio XML do documento
-Neste caso podemos fazer uso da tag \<Obscont\> podem existir dezenas desses campos no xml, essa com certeza é a manira mais inteligente de indicar vários destinários, pois podem ser lidos diretamente do xml.
+Neste caso podemos fazer uso da tag &lt;obsCont&gt; podem existir dezenas desses campos no xml, essa com certeza é a manira mais inteligente de indicar vários destinários, pois podem ser lidos diretamente do xml.
+
+Veja que o tipo do campo xCampo="email" passa a ser obrigatório para que possamos identificar que este campo indica um email.
 
 ```xml
  <obsCont xCampo="email">
@@ -111,7 +113,7 @@ Neste caso podemos fazer uso da tag \<Obscont\> podem existir dezenas desses cam
 
 
 ## 2 - Passando os endereços adicionais em um array nesta classe
-Essa forma já foi indicada acima na variável $addresses = [];
+Essa forma já foi indicada acima na variável $addresses = [ ... ];
 
 
 [ico-stars]: https://img.shields.io/github/stars/nfephp-org/sped-mail.svg?style=flat-square
