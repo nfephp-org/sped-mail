@@ -96,14 +96,25 @@ class Mail extends Base
     {
         $this->xml = $xml;
         $this->pdf = $pdf;
-        if (is_file($xml)) {
+        if ($this->isFile($xml)) {
             $this->xml = file_get_contents($xml);
         }
-        if (is_file($pdf)) {
+        if ($this->isFile($pdf)) {
             $this->pdf = file_get_contents($pdf);
         }
         //get xml data
         $this->getXmlData($this->xml);
+    }
+    
+    /**
+     * Checks if given data is file, handles mixed input
+     * @param  mixed $value
+     * @return boolean
+     */
+    private function isFile($value)
+    {
+        $value = strval(str_replace("\0", "", $value));
+        return is_file($value);
     }
     
     /**
