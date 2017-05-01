@@ -24,7 +24,7 @@ try {
     //use isso para inserir seu próprio template HTML com os campos corretos 
     //para serem substituidos em execução com os dados dos xml
     $htmlTemplate = '';
-    $mail->setTemplate($htmlTemplate);
+    $mail->loadTemplate($htmlTemplate);
 
     //aqui são passados os documentos, tanto pode ser um path como o conteudo
     //desses documentos

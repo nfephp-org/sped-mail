@@ -27,7 +27,7 @@ try {
     //use isso para inserir seu próprio template HTML com os campos corretos 
     //para serem substituidos em execução com os dados dos xml
     $htmlTemplate = '';
-    $mail->setTemplate($htmlTemplate);
+    $mail->loadTemplate($htmlTemplate);
 
     //aqui são passados os documentos, tanto pode ser um path como o conteudo
     //desses documentos
@@ -54,7 +54,7 @@ try {
 
 ```
 
-# Forma de USO Statica
+# Forma de USO Estática
 
 ```php
 
@@ -96,22 +96,22 @@ try {
 
 Médoto construtor, recebe como parâmtro uma **stdClass** com os seguintes dados:
   
-$config->mail->host = '<Endereço do HOST SMTP>';
-$config->mail->user = '<identificação no usuário>';
-$config->mail->password = '<senha de acesso>';
-$config->mail->secure = '<nivel de segurança>';
-$config->mail->port = <numero da porta>;
-$config->mail->from = '<endereço da caixa postal do remetente>';
-$config->mail->fantasy = '<Nome simplificado da Empresa>';
-$config->mail->replyTo = '<caixa postal que podera receber uma resposta>';
-$config->mail->replyName = '<Nome desse contato>';
+- $config->mail->host = '<Endereço do HOST SMTP>';
+- $config->mail->user = '<identificação no usuário>';
+- $config->mail->password = '<senha de acesso>';
+- $config->mail->secure = '<nivel de segurança>';
+- $config->mail->port = <numero da porta>;
+- $config->mail->from = '<endereço da caixa postal do remetente>';
+- $config->mail->fantasy = '<Nome simplificado da Empresa>';
+- $config->mail->replyTo = '<caixa postal que podera receber uma resposta>';
+- $config->mail->replyName = '<Nome desse contato>';
 
 ## function loadDocuments($xml, $pdf)
 
 Este método permite o carregamento dos documentos que devem ser anexados ao(s) email(s).
 
-$xml = (OBRIGATÓRIO) path do documento ou o próprio conteúdo do xml em uma string
-$pdf = (OPCIONAL) path do documento ou o próprio conteúdo do pdf em uma string
+- $xml = (OBRIGATÓRIO) path do documento ou o próprio conteúdo do xml em uma string
+- $pdf = (OPCIONAL) path do documento ou o próprio conteúdo do pdf em uma string
 
 ## function loadTemplate($html)
 
@@ -154,11 +154,11 @@ Ambiente Nacional.</b></p>
 
 Repare que esse template tem as seguintes variáveis que serão substituidas em tempo de execução pela classe, com os dados contidos no próprio XML fornecido:
 
-{destinatario} = Razão Social do destinatário (ex. xNome)
-{data} = Data de emissão do documento (ex. dhEmi)
-{numero} = Numero do documentos (ex. nNF)
-{emitente} = Razão Social do emitente (ex. xNome)
-{valor} = Valor total do documento (ex.vNF)
+- {destinatario} = Razão Social do destinatário (ex. xNome)
+- {data} = Data de emissão do documento (ex. dhEmi)
+- {numero} = Numero do documentos (ex. nNF)
+- {emitente} = Razão Social do emitente (ex. xNome)
+- {valor} = Valor total do documento (ex.vNF)
 
 
 ## function send($addresses)
@@ -185,17 +185,12 @@ $addresses = (OPCIONAL) ['<endereços de email>']
 > NOTA: Antes do envio os endereços repetidos são REMOVIDOS e validados quanto ao seu conteúdo, os que não passarem na validação também serão REMOVIDOS. 
  
 
-## function static sendMail(
-        $config,
-        $xml,
-        $pdf,
-        $addresses,
-        $htmltemplate)
+## function static sendMail($config,$xml,$pdf,$addresses,$htmltemplate)
 
-$config = (OBRIGATÓRIO) stdClass (já descrita anteriormente)
-$xml = (OBRIGATÓRIO) path do documento ou o próprio conteúdo do xml em uma string
-$pdf = (OPCIONAL) path do documento ou o próprio conteúdo do pdf em uma string
-$addresses = (OPCIONAL) ['<endereços de email>']
-$htmltemplate = (OPCIONAL) string contendo oum template alternativo
+- $config = (OBRIGATÓRIO) stdClass (já descrita anteriormente)
+- $xml = (OBRIGATÓRIO) path do documento ou o próprio conteúdo do xml em uma string
+- $pdf = (OPCIONAL) path do documento ou o próprio conteúdo do pdf em uma string
+- $addresses = (OPCIONAL) ['<endereços de email>']
+- $htmltemplate = (OPCIONAL) string contendo oum template alternativo
 
 > NOTA: não está prevista a inclusão de imagens estaticas ou logos no corpo do email, se isso for desejável o template já deverá contê-las.
