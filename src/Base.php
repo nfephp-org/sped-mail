@@ -158,14 +158,14 @@ class Base
             '{conduso}'
         );
         $replace = array(
-          $destinatario,
-          $dt->format('d/m/Y'),
-          $numero,
-          number_format($valor, 2, ',', '.'),
-          $this->config->fantasy,
-          $chave,
-          $correcao,
-          $conduso
+            $destinatario,
+            $dt->format('d/m/Y'),
+            $numero,
+            number_format($valor, 2, ',', '.'),
+            $this->config->fantasy,
+            $chave,
+            $correcao,
+            $conduso
         );
         $template = str_replace($search, $replace, $template);
         return $template;
