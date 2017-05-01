@@ -12,8 +12,8 @@ class MailTest extends \PHPUnit_Framework_TestCase
     public $mail;
     
     /**
-     * @covers NFePHP\Mail::__construct
-     * @covers NFePHP\Mail::loadservice
+     * @covers \NFePHP\Mail\Mail::__construct
+     * @covers \NFePHP\Mail\Mail::loadservice
      */
     public function __construct()
     {
@@ -47,7 +47,8 @@ class MailTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expected, $this->mail->template);
     }
     /**
-     * @covers NFePHP\Mail::getXmlData
+     * @covers \NFePHP\Mail\Mail::getXmlData
+     * @covers \NFePHP\Mail\Mail::isFile
      */
     public function testLoadDocuments()
     {
@@ -58,6 +59,7 @@ class MailTest extends \PHPUnit_Framework_TestCase
     
     /**
      * @expectedException InvalidArgumentException
+     * @covers \NFePHP\Mail\Mail::isFile
      */
     public function testLoadDocumentsFail()
     {
@@ -66,13 +68,13 @@ class MailTest extends \PHPUnit_Framework_TestCase
     }
     
     /**
-     * @covers NFePHP\Base::<protected>
-     * @covers NFePHP\Mail::renderTemplate
-     * @covers NFePHP\Mail::render
-     * @covers NFePHP\Mail::removeInvalidAdresses
-     * @covers NFePHP\Mail::attach
-     * @covers NFePHP\Mail::checkEmailAddress
-     * @covers NFePHP\Mail::clearAddressString
+     * @covers \NFePHP\Mail\Base::<protected>
+     * @covers \NFePHP\Mail\Mail::renderTemplate
+     * @covers \NFePHP\Mail\Mail::render
+     * @covers \NFePHP\Mail\Mail::removeInvalidAdresses
+     * @covers \NFePHP\Mail\Mail::attach
+     * @covers \NFePHP\Mail\Mail::checkEmailAddress
+     * @covers \NFePHP\Mail\Mail::clearAddressString
      */
     public function testSend()
     {
