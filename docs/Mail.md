@@ -185,12 +185,7 @@ $addresses = (OPCIONAL) ['<endereços de email>']
 > NOTA: Antes do envio os endereços repetidos são REMOVIDOS e validados quanto ao seu conteúdo, os que não passarem na validação também serão REMOVIDOS. 
  
 
-## function static sendMail(
-        $config,
-        $xml,
-        $pdf,
-        $addresses,
-        $htmltemplate)
+## function static sendMail($config,$xml,$pdf,$addresses,$htmltemplate)
 
 - $config = (OBRIGATÓRIO) stdClass (já descrita anteriormente)
 - $xml = (OBRIGATÓRIO) path do documento ou o próprio conteúdo do xml em uma string
