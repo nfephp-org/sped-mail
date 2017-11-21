@@ -171,20 +171,16 @@ class Mail extends Base
                 $dest->getElementsByTagName('email')->item(0)->nodeValue : '';
         }
         if (!empty($email)) {
-
             // if recieve more than one e-mail address.
             if (strpos($email, ';')) {
-
                 $emails = explode(';', $email);
 
-                $emails = array_map( function($item) {
-
+                $emails = array_map(function ($item) {
                     return trim($item);
                 }, $emails);
 
                 $this->addresses = array_merge($this->addresses, $emails);
             } else {
-
                 $this->addresses[] = $email;
             }
         }
