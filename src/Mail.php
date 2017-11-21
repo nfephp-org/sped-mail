@@ -31,7 +31,7 @@ class Mail extends Base
      * @var string
      */
     public $subject;
-    
+
     /**
      * Constructor
      * @param \stdClass $config
@@ -54,7 +54,7 @@ class Mail extends Base
         $this->fields->correcao = '';
         $this->fields->conduso = '';
     }
-    
+
     /**
      * Load parameters to PHPMailer class
      * @param \stdClass $config
@@ -72,7 +72,7 @@ class Mail extends Base
         $this->mail->setFrom($config->from, $config->fantasy);
         $this->mail->addReplyTo($config->replyTo, $config->replyName);
     }
-    
+
     /**
      * Sets a template for body mail
      * If no template is passed, it will be used a standard template
@@ -85,7 +85,7 @@ class Mail extends Base
             $this->template = $htmlTemplate;
         }
     }
-    
+
     /**
      * Load the documents to send
      * XML document is required, but PDF is not
@@ -105,7 +105,7 @@ class Mail extends Base
         //get xml data
         $this->getXmlData($this->xml);
     }
-    
+
     /**
      * Checks if given data is file, handles mixed input
      * @param  mixed $value
@@ -116,7 +116,7 @@ class Mail extends Base
         $value = strval(str_replace("\0", "", $value));
         return is_file($value);
     }
-    
+
     /**
      * Search xml for data
      * @param string $xml
@@ -171,7 +171,22 @@ class Mail extends Base
                 $dest->getElementsByTagName('email')->item(0)->nodeValue : '';
         }
         if (!empty($email)) {
-            $this->addresses[] = $email;
+
+            // if recieve more than one e-mail address.
+            if (strpos($email, ';')) {
+
+                $emails = explode(';', $email);
+
+                $emails = array_map( function($item) {
+
+                    return trim($item);
+                }, $emails);
+
+                $this->addresses = array_merge($this->addresses, $emails);
+            } else {
+
+                $this->addresses[] = $email;
+            }
         }
         //may have others in <obsCont xCampo="email"><xTexto>fulano@yahoo.com.br</xTexto>
         $obs = $dom->getElementsByTagName('obsCont');
@@ -188,8 +203,8 @@ class Mail extends Base
         }
         $this->type = $type;
     }
-    
-    
+
+
     /**
      * Set all addresses including those that exists in the xml document
      * Send email only to listed addresses ignoring all email addresses in xml
@@ -202,7 +217,7 @@ class Mail extends Base
         }
         $this->removeInvalidAdresses();
     }
-    
+
     /**
      * Send mail
      * If no parameter was passed, only the email address contained in
@@ -235,7 +250,7 @@ class Mail extends Base
         $this->mail->ClearAttachments();
         return true;
     }
-    
+
     /**
      * Configure and send documents
      * @param \stdClass $config
