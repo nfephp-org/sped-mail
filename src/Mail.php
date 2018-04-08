@@ -5,7 +5,7 @@ namespace NFePHP\Mail;
 /**
  * Class for sending emails related to SPED services
  *
- * @category  NFePHP
+ * @category  library
  * @package   NFePHP\Mail\Mail
  * @copyright NFePHP Copyright (c) 2016
  * @license   http://www.gnu.org/licenses/lgpl.txt LGPLv3+
