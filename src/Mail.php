@@ -205,11 +205,16 @@ class Mail extends Base
      * Set all addresses including those that exists in the xml document
      * Send email only to listed addresses ignoring all email addresses in xml
      * @param array $addresses
+     * @param bool $include
      */
-    protected function setAddresses(array $addresses = [])
+    protected function setAddresses(array $addresses = [], $include = true)
     {
         if (!empty($addresses)) {
-            $this->addresses = array_merge($this->addresses, $addresses);
+            if (!empty($this->addresses) && $include) {
+                $this->addresses = array_merge($this->addresses, $addresses);
+            } else {
+                $this->addresses = $addresses;
+            }
         }
         $this->removeInvalidAdresses();
     }
@@ -222,9 +227,9 @@ class Mail extends Base
      * @return boolean
      * @throws \RuntimeException
      */
-    public function send(array $addresses = [])
+    public function send(array $addresses = [], $include = true)
     {
-        $this->setAddresses($addresses);
+        $this->setAddresses($addresses, $include);
         if (empty($this->addresses)) {
             $msg = 'Não foram passados endereços de email validos !!';
             throw new \RuntimeException($msg);
@@ -268,7 +273,7 @@ class Mail extends Base
         $mail = new static($config, $mailer);
         $mail->loadDocuments($xml, $pdf);
         $mail->loadTemplate($htmltemplate);
-        $mail->send($addresses);
+        $mail->send($addresses, false);
         return $mail;
     }
 }
