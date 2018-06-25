@@ -214,7 +214,7 @@ class Mail extends Base
                 $this->addresses = array_merge($this->addresses, $addresses);
             } else {
                 $this->addresses = $addresses;
-            }    
+            }
         }
         $this->removeInvalidAdresses();
     }
