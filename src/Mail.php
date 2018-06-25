@@ -209,10 +209,12 @@ class Mail extends Base
      */
     protected function setAddresses(array $addresses = [], $include = true)
     {
-        if (!empty($addresses) && $include) {
-            $this->addresses = array_merge($this->addresses, $addresses);
-        } else {
-            $this->addresses = $addresses;
+        if (!empty($addresses)) {
+            if (!empty($this->addresses) && $include) {
+                $this->addresses = array_merge($this->addresses, $addresses);
+            } else {
+                $this->addresses = $addresses;
+            }    
         }
         $this->removeInvalidAdresses();
     }
@@ -225,9 +227,9 @@ class Mail extends Base
      * @return boolean
      * @throws \RuntimeException
      */
-    public function send(array $addresses = [])
+    public function send(array $addresses = [], $include = true)
     {
-        $this->setAddresses($addresses);
+        $this->setAddresses($addresses, $include);
         if (empty($this->addresses)) {
             $msg = 'Não foram passados endereços de email validos !!';
             throw new \RuntimeException($msg);

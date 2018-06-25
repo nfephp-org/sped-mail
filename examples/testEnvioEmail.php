@@ -4,15 +4,15 @@ ini_set('display_errors', 'On');
 require_once '../bootstrap.php';
 
 $config = new stdClass();
-$config->mail->host = 'smtp.test.com.br';
-$config->mail->user = 'usuario@test.com.br';
-$config->mail->password = 'senha';
-$config->mail->secure = 'tls';
-$config->mail->port = 587;
-$config->mail->from = 'usuario@test.com.br';
-$config->mail->fantasy = 'Test Ltda';
-$config->mail->replyTo = 'vendas@test.com.br';
-$config->mail->replyName = 'Vendas';
+$config->host = 'smtp.test.com.br';
+$config->user = 'usuario@test.com.br';
+$config->password = 'senha';
+$config->secure = 'tls';
+$config->port = 587;
+$config->from = 'usuario@test.com.br';
+$config->fantasy = 'Test Ltda';
+$config->replyTo = 'vendas@test.com.br';
+$config->replyName = 'Vendas';
 
 use NFePHP\Mail\Mail;
 
@@ -35,11 +35,10 @@ try {
     //se não for passado esse array serão enviados apenas os emails
     //que estão contidos no XML, isto se existirem
     $addresses = ['seu@email.com.br'];
-    //se esse array for passado serão enviados emails para os endereços indicados apenas
-    //e os endereços contidos no xml serão ignorados
     
-    //envia emails
-    $mail->send($addresses);
+    //envia emails, se false apenas para os endereçospassados
+    //se true para todos os endereços contidos no XML e mais os indicados adicionais
+    $mail->send($addresses, true);
     
 } catch (\InvalidArgumentException $e) {
     echo "Falha: " . $e->getMessage();
