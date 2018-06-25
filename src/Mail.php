@@ -273,7 +273,7 @@ class Mail extends Base
         $mail = new static($config, $mailer);
         $mail->loadDocuments($xml, $pdf);
         $mail->loadTemplate($htmltemplate);
-        $mail->send($addresses);
+        $mail->send($addresses, false);
         return $mail;
     }
 }
