@@ -205,11 +205,14 @@ class Mail extends Base
      * Set all addresses including those that exists in the xml document
      * Send email only to listed addresses ignoring all email addresses in xml
      * @param array $addresses
+     * @param bool $include
      */
-    protected function setAddresses(array $addresses = [])
+    protected function setAddresses(array $addresses = [], $include = true)
     {
-        if (!empty($addresses)) {
+        if (!empty($addresses) && $include) {
             $this->addresses = array_merge($this->addresses, $addresses);
+        } else {
+            $this->addresses = $addresses;
         }
         $this->removeInvalidAdresses();
     }
