@@ -156,7 +156,7 @@ class Mail extends Base
             case 'procEventoCTe':
                 $type = 'CCe';
                 $this->fields->chave = $dom->getElementsByTagName('chNFe')->item(0)->nodeValue;
-                $this->fields->id = $this->fields->chave.'-procCCe';
+                $this->fields->id = $this->fields->chave.'-procCCe-'.strtolower(substr($name,-3));
                 $this->fields->data = $dom->getElementsByTagName('dhEvento')->item(0)->nodeValue;
                 $this->fields->correcao = $dom->getElementsByTagName('xCorrecao')->item(0)->nodeValue;
                 $this->fields->conduso = $dom->getElementsByTagName('xCondUso')->item(0)->nodeValue;
