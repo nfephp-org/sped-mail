@@ -135,6 +135,8 @@ class Mail extends Base
             case 'nfeProc':
             case 'NFe':
                 $type = 'NFe';
+                $infNFe = $dom->getElementsByTagName('infNFe')->item(0);
+                $this->fields->id = substr($infNFe->getAttribute('Id'),3);
                 $this->fields->numero = $ide->getElementsByTagName('nNF')->item(0)->nodeValue;
                 $this->fields->valor = $dom->getElementsByTagName('vNF')->item(0)->nodeValue;
                 $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
@@ -143,6 +145,8 @@ class Mail extends Base
             case 'cteProc':
             case 'CTe':
                 $type = 'CTe';
+                $infCte = $dom->getElementsByTagName('infCte')->item(0);
+                $this->fields->id = substr($infNFe->getAttribute('Id'),3);
                 $this->fields->numero = $ide->getElementsByTagName('nCT')->item(0)->nodeValue;
                 $this->fields->valor = $dom->getElementsByTagName('vRec')->item(0)->nodeValue;
                 $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
@@ -152,6 +156,7 @@ class Mail extends Base
             case 'procEventoCTe':
                 $type = 'CCe';
                 $this->fields->chave = $dom->getElementsByTagName('chNFe')->item(0)->nodeValue;
+                $this->fields->id = $this->fields->chave.'-procCCe-'.strtolower(substr($name,-3));
                 $this->fields->data = $dom->getElementsByTagName('dhEvento')->item(0)->nodeValue;
                 $this->fields->correcao = $dom->getElementsByTagName('xCorrecao')->item(0)->nodeValue;
                 $this->fields->conduso = $dom->getElementsByTagName('xCondUso')->item(0)->nodeValue;
