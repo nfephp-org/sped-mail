@@ -214,12 +214,12 @@ class Base
     {
         $this->mail->addStringAttachment(
             $this->xml,
-            $this->type . '.xml'
+            $this->fields->id . '.xml'
         );
         if (!empty($this->pdf)) {
             $this->mail->addStringAttachment(
                 $this->pdf,
-                $this->type . '.pdf',
+                $this->fields->id. '.pdf',
                 'base64',
                 'application/pdf'
             );
