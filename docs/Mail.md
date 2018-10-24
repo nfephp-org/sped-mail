@@ -9,15 +9,15 @@ Esta classe é de uso opcional mas pode simplificar o envio dos emails OBRIGATÓ
 use NFePHP\Mail\Mail;
 
 $config = new stdClass();
-$config->mail->host = 'smtp.test.com.br';
-$config->mail->user = 'usuario@test.com.br';
-$config->mail->password = 'senha';
-$config->mail->secure = 'tls';
-$config->mail->port = 587;
-$config->mail->from = 'usuario@test.com.br';
-$config->mail->fantasy = 'Test Ltda';
-$config->mail->replyTo = 'vendas@test.com.br';
-$config->mail->replyName = 'Vendas';
+$config->host = 'smtp.test.com.br';
+$config->user = 'usuario@test.com.br';
+$config->password = 'senha';
+$config->secure = 'tls';
+$config->port = 587;
+$config->from = 'usuario@test.com.br';
+$config->fantasy = 'Test Ltda';
+$config->replyTo = 'vendas@test.com.br';
+$config->replyName = 'Vendas';
 
 try {
     //a configuração é uma stdClass com os campos acima indicados
@@ -61,15 +61,15 @@ try {
 use NFePHP\Mail\Mail;
 
 $config = new stdClass();
-$config->mail->host = 'smtp.test.com.br';
-$config->mail->user = 'usuario@test.com.br';
-$config->mail->password = 'senha';
-$config->mail->secure = 'tls';
-$config->mail->port = 587;
-$config->mail->from = 'usuario@test.com.br';
-$config->mail->fantasy = 'Test Ltda';
-$config->mail->replyTo = 'vendas@test.com.br';
-$config->mail->replyName = 'Vendas';
+$config->host = 'smtp.test.com.br';
+$config->user = 'usuario@test.com.br';
+$config->password = 'senha';
+$config->secure = 'tls';
+$config->port = 587;
+$config->from = 'usuario@test.com.br';
+$config->fantasy = 'Test Ltda';
+$config->replyTo = 'vendas@test.com.br';
+$config->replyName = 'Vendas';
 
 try {
     //paramtros:
@@ -96,15 +96,15 @@ try {
 
 Médoto construtor, recebe como parâmtro uma **stdClass** com os seguintes dados:
   
-- $config->mail->host = '<Endereço do HOST SMTP>';
-- $config->mail->user = '<identificação no usuário>';
-- $config->mail->password = '<senha de acesso>';
-- $config->mail->secure = '<nivel de segurança>';
-- $config->mail->port = <numero da porta>;
-- $config->mail->from = '<endereço da caixa postal do remetente>';
-- $config->mail->fantasy = '<Nome simplificado da Empresa>';
-- $config->mail->replyTo = '<caixa postal que podera receber uma resposta>';
-- $config->mail->replyName = '<Nome desse contato>';
+- $config->host = '<Endereço do HOST SMTP>';
+- $config->user = '<identificação no usuário>';
+- $config->password = '<senha de acesso>';
+- $config->secure = '<nivel de segurança>';
+- $config->port = <numero da porta>;
+- $config->from = '<endereço da caixa postal do remetente>';
+- $config->fantasy = '<Nome simplificado da Empresa>';
+- $config->replyTo = '<caixa postal que podera receber uma resposta>';
+- $config->replyName = '<Nome desse contato>';
 
 ## function loadDocuments($xml, $pdf)
 
