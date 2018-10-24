@@ -123,6 +123,113 @@ class Base
      * @var \stdClass
      */
     protected $config;
+    
+    
+    /**
+     * Search xml for data
+     * @param string $xml
+     * @throws \InvalidArgumentException
+     */
+    protected function getXmlData($xml)
+    {
+        $dom = new \DOMDocument('1.0', 'UTF-8');
+        $dom->preserveWhiteSpace = false;
+        $dom->loadXML($xml);
+        $root = $dom->documentElement;
+        $name = $root->tagName;
+        $dest = $dom->getElementsByTagName('dest')->item(0);
+        $ide = $dom->getElementsByTagName('ide')->item(0);
+        switch ($name) {
+            case 'nfeProc':
+            case 'NFe':
+                $type = 'NFe';
+                $infNFe = $dom->getElementsByTagName('infNFe')->item(0);
+                $this->fields->id = substr($infNFe->getAttribute('Id'), 3) . '-' . strtolower($name);
+                $this->fields->numero = $ide->getElementsByTagName('nNF')->item(0)->nodeValue;
+                $this->fields->valor = $dom->getElementsByTagName('vNF')->item(0)->nodeValue;
+                $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
+                $this->subject = "NFe n. " . $this->fields->numero . " - " . $this->config->fantasy;
+                break;
+            case 'cteProc':
+            case 'CTe':
+                $type = 'CTe';
+                $infCte = $dom->getElementsByTagName('infCte')->item(0);
+                $this->fields->id = substr($infNFe->getAttribute('Id'), 3) . '-' . strtolower($name);
+                $this->fields->numero = $ide->getElementsByTagName('nCT')->item(0)->nodeValue;
+                $this->fields->valor = $dom->getElementsByTagName('vRec')->item(0)->nodeValue;
+                $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
+                $this->subject = "CTe n. " . $this->fields->numero . " - " . $this->config->fantasy;
+                break;
+            case 'procEventoNFe':
+            case 'procEventoCTe':
+                $type = 'CCe';
+                $this->fields->chave = $dom->getElementsByTagName('chNFe')->item(0)->nodeValue;
+                $this->fields->id = $this->fields->chave.'-procCCe-'.strtolower(substr($name, -3));
+                $this->fields->data = $dom->getElementsByTagName('dhEvento')->item(0)->nodeValue;
+                $this->fields->correcao = $dom->getElementsByTagName('xCorrecao')->item(0)->nodeValue;
+                $this->fields->conduso = $dom->getElementsByTagName('xCondUso')->item(0)->nodeValue;
+                if (empty($this->fields->chave)) {
+                    $this->fields->chave = $dom->getElementsByTagName('chCTe')->item(0)->nodeValue;
+                }
+                $this->subject = "Carta de Correção " . $this->config->fantasy;
+                break;
+            default:
+                $type = '';
+        }
+        //get email adresses from xml, if exists
+        //may have one address in <dest><email>
+        if (!empty($dest)) {
+            $this->fields->destinatario = $dest->getElementsByTagName('xNome')->item(0)->nodeValue;
+            $email = !empty($dest->getElementsByTagName('email')->item(0)->nodeValue) ?
+                $dest->getElementsByTagName('email')->item(0)->nodeValue : '';
+        }
+        if (!empty($email)) {
+            // if recieve more than one e-mail address.
+            if (strpos($email, ';')) {
+                $emails = explode(';', $email);
+
+                $emails = array_map(function ($item) {
+                    return trim($item);
+                }, $emails);
+
+                $this->addresses = array_merge($this->addresses, $emails);
+            } else {
+                $this->addresses[] = $email;
+            }
+        }
+        //may have others in <obsCont xCampo="email"><xTexto>fulano@yahoo.com.br</xTexto>
+        $obs = $dom->getElementsByTagName('obsCont');
+        foreach ($obs as $ob) {
+            if (strtoupper($ob->getAttribute('xCampo')) === 'EMAIL') {
+                $this->addresses[] = $ob->getElementsByTagName('xTexto')->item(0)->nodeValue;
+            }
+        }
+        //xml may be a NFe or a CTe or a CCe nothing else
+        if ($type != 'NFe' && $type != 'CTe' && $type != 'CCe') {
+            $msg = "Você deve passar apenas uma NFe ou um CTe ou um CCe. "
+                    . "Esse documento não foi reconhecido.";
+            throw new \InvalidArgumentException($msg);
+        }
+        $this->type = $type;
+    }
+    
+    /**
+     * Set all addresses including those that exists in the xml document
+     * Send email only to listed addresses ignoring all email addresses in xml
+     * @param array $addresses
+     * @param bool $include
+     */
+    protected function setAddresses(array $addresses = [], $include = true)
+    {
+        if (!empty($addresses)) {
+            if (!empty($this->addresses) && $include) {
+                $this->addresses = array_merge($this->addresses, $addresses);
+            } else {
+                $this->addresses = $addresses;
+            }
+        }
+        $this->removeInvalidAdresses();
+    }
 
     /**
      * Render a template with valid data
