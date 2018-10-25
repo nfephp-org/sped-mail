@@ -53,15 +53,15 @@ Onde :
 $config é um stdClass contendo as configuração de seu SMTP (OBRIGATÓRIO)
 ```php
 $config = new stdClass();
-$config->mail->host = 'smtp.test.com.br';
-$config->mail->user = 'usuario@test.com.br';
-$config->mail->password = 'senha';
-$config->mail->secure = 'tls';
-$config->mail->port = 587;
-$config->mail->from = 'usuario@test.com.br';
-$config->mail->fantasy = 'Test Ltda';
-$config->mail->replyTo = 'vendas@test.com.br';
-$config->mail->replyName = 'Vendas';
+$config->host = 'smtp.test.com.br';
+$config->user = 'usuario@test.com.br';
+$config->password = 'senha';
+$config->secure = 'tls';
+$config->port = 587;
+$config->from = 'usuario@test.com.br';
+$config->fantasy = 'Test Ltda';
+$config->replyTo = 'vendas@test.com.br';
+$config->replyName = 'Vendas';
 ```
 $xml é o path ou o conteudo do xml que se deseja enviar (OBRIGATÓRIO)
 ```php
