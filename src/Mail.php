@@ -7,7 +7,7 @@ namespace NFePHP\Mail;
  *
  * @category  library
  * @package   NFePHP\Mail\Mail
- * @copyright NFePHP Copyright (c) 2016
+ * @copyright NFePHP Copyright (c) 2008-2019
  * @license   http://www.gnu.org/licenses/lgpl.txt LGPLv3+
  * @license   https://opensource.org/licenses/MIT MIT
  * @license   http://www.gnu.org/licenses/gpl.txt GPLv3+
@@ -36,12 +36,10 @@ class Mail extends Base
      * Constructor
      * @param \stdClass $config
      */
-    public function __construct(\stdClass $config, PHPMailer $mailer = null)
+    public function __construct(\stdClass $config)
     {
-        $this->mail = $mailer;
-        if (is_null($mailer)) {
-            $this->mail = new PHPMailer();
-        }
+        $this->mail = new PHPMailer();
+        
         $this->config = $config;
         $this->loadService($config);
         $this->fields = new \stdClass();
@@ -94,25 +92,33 @@ class Mail extends Base
      */
     public function loadDocuments($xml, $pdf = '')
     {
-        $this->xml = $xml;
-        $this->pdf = $pdf;
-        if ($this->isFile($xml)) {
-            $this->xml = file_get_contents($xml);
+        $this->xml = trim($xml);
+        $this->pdf = trim($pdf);
+        if ($this->isFile($this->xml)) {
+            $this->xml = file_get_contents($$this->xml);
         }
-        if ($this->isFile($pdf)) {
-            $this->pdf = file_get_contents($pdf);
+        if ($this->isFile($this->pdf)) {
+            $this->pdf = file_get_contents($this->pdf);
         }
         //get xml data
         $this->getXmlData($this->xml);
     }
 
     /**
-     * Checks if given data is file, handles mixed input
-     * @param  mixed $value
+     * Checks if given data is file
+     * @param  string $value
      * @return boolean
      */
     private function isFile($value)
     {
+        //se a string for maior que 500bytes, provavelmente é o conteudo
+        //de um xml ou de um PDF então verificar
+        if (strlen($value) > 500
+            && (substr($value, 0, 1) == '<' || substr($value, 0, 5) == "%PDF-")
+        ) {
+            return false;
+        }
+        //caso contrario pode ser um path muito longo !!
         $value = strval(str_replace("\0", "", $value));
         return is_file($value);
     }
@@ -145,8 +151,8 @@ class Mail extends Base
             $msg = 'A mensagem não pode ser enviada. Mail Error: ' . $this->mail->ErrorInfo;
             throw new \RuntimeException($msg);
         }
-        $this->mail->ClearAllRecipients();
-        $this->mail->ClearAttachments();
+        $this->mail->clearAllRecipients();
+        $this->mail->clearAttachments();
         return true;
     }
 
