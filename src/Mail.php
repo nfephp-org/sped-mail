@@ -36,12 +36,10 @@ class Mail extends Base
      * Constructor
      * @param \stdClass $config
      */
-    public function __construct(\stdClass $config, PHPMailer $mailer = null)
+    public function __construct(\stdClass $config)
     {
-        $this->mail = $mailer;
-        if (is_null($mailer)) {
-            $this->mail = new PHPMailer();
-        }
+        $this->mail = new PHPMailer();
+        
         $this->config = $config;
         $this->loadService($config);
         $this->fields = new \stdClass();
@@ -117,8 +115,8 @@ class Mail extends Base
         //de um xml ou de um PDF então verificar
         if (strlen($value) > 500
             && (substr($value, 0, 1) == '<' || substr($value, 0, 5) == "%PDF-")
-        ){
-           return false;
+        ) {
+            return false;
         }
         //caso contrario pode ser um path muito longo !!
         $value = strval(str_replace("\0", "", $value));
@@ -153,8 +151,8 @@ class Mail extends Base
             $msg = 'A mensagem não pode ser enviada. Mail Error: ' . $this->mail->ErrorInfo;
             throw new \RuntimeException($msg);
         }
-        $this->mail->ClearAllRecipients();
-        $this->mail->ClearAttachments();
+        $this->mail->clearAllRecipients();
+        $this->mail->clearAttachments();
         return true;
     }
 

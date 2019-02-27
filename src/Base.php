@@ -99,6 +99,11 @@ class Base
      */
     protected $addresses = [];
     /**
+     * Assunto do email
+     * @var string
+     */
+    protected $subject;
+    /**
      * Fields from xml
      * @var \stdClass
      */
@@ -154,7 +159,7 @@ class Base
             case 'CTe':
                 $type = 'CTe';
                 $infCte = $dom->getElementsByTagName('infCte')->item(0);
-                $this->fields->id = substr($infNFe->getAttribute('Id'), 3) . '-' . strtolower($name);
+                $this->fields->id = substr($infCte->getAttribute('Id'), 3) . '-' . strtolower($name);
                 $this->fields->numero = $ide->getElementsByTagName('nCT')->item(0)->nodeValue;
                 $this->fields->valor = $dom->getElementsByTagName('vRec')->item(0)->nodeValue;
                 $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
