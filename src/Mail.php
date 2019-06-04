@@ -95,7 +95,7 @@ class Mail extends Base
         $this->xml = trim($xml);
         $this->pdf = trim($pdf);
         if ($this->isFile($this->xml)) {
-            $this->xml = file_get_contents($$this->xml);
+            $this->xml = file_get_contents($this->xml);
         }
         if ($this->isFile($this->pdf)) {
             $this->pdf = file_get_contents($this->pdf);
