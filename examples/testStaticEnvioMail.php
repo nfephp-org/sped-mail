@@ -4,15 +4,17 @@ ini_set('display_errors', 'On');
 require_once '../bootstrap.php';
 
 $config = new stdClass();
-$config->mail->host = 'smtp.test.com.br';
-$config->mail->user = 'usuario@test.com.br';
-$config->mail->password = 'senha';
-$config->mail->secure = 'tls';
-$config->mail->port = 587;
-$config->mail->from = 'usuario@test.com.br';
-$config->mail->fantasy = 'Test Ltda';
-$config->mail->replyTo = 'vendas@test.com.br';
-$config->mail->replyName = 'Vendas';
+$config->host = 'smtp.test.com.br';
+$config->port = 587;
+$config->smtpauth = true;
+$config->user = 'usuario@test.com.br';
+$config->password = 'senha';
+$config->secure = 'tls';
+$config->authtype = null; //CRAM-MD5, PLAIN, LOGIN, XOAUTH2
+$config->from = 'usuario@test.com.br';
+$config->fantasy = 'Test Ltda';
+$config->replyTo = 'vendas@test.com.br';
+$config->replyName = 'Vendas';
 
 use NFePHP\Mail\Mail;
 
