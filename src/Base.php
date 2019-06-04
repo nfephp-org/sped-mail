@@ -9,77 +9,111 @@ class Base
      * @var array
      */
     protected $templates = [
-        'NFe'=> "<p><b>Prezados {destinatario},</b></p>" .
-                "<p>Você está recebendo a Nota Fiscal Eletrônica emitida em {data} com o número " .
-                "{numero}, de {emitente}, no valor de R$ {valor}. " .
-                "Junto com a mercadoria, você receberá também um DANFE (Documento " .
-                "Auxiliar da Nota Fiscal Eletrônica), que acompanha o trânsito das mercadorias.</p>" .
-                "<p><i>Podemos conceituar a Nota Fiscal Eletrônica como um documento " .
-                "de existência apenas digital, emitido e armazenado eletronicamente, " .
-                "com o intuito de documentar, para fins fiscais, uma operação de " .
-                "circulação de mercadorias, ocorrida entre as partes. Sua validade " .
-                "jurídica garantida pela assinatura digital do remetente (garantia " .
-                "de autoria e de integridade) e recepção, pelo Fisco, do documento " .
-                "eletrônico, antes da ocorrência do Fato Gerador.</i></p>" .
-                "<p><i>Os registros fiscais e contábeis devem ser feitos, a partir " .
-                "do próprio arquivo da NF-e, anexo neste e-mail, ou utilizando o " .
-                "DANFE, que representa graficamente a Nota Fiscal Eletrônica. " .
-                "A validade e autenticidade deste documento eletrônico pode ser " .
-                "verificada no site nacional do projeto (www.nfe.fazenda.gov.br), " .
-                "através da chave de acesso contida no DANFE.</i></p>" .
-                "<p><i>Para poder utilizar os dados descritos do DANFE na " .
-                "escrituração da NF-e, tanto o contribuinte destinatário, " .
-                "como o contribuinte emitente, terão de verificar a validade da NF-e. " .
-                "Esta validade está vinculada à efetiva existência da NF-e nos " .
-                "arquivos da SEFAZ, e comprovada através da emissão da Autorização de Uso.</i></p>" .
-                "<p><b>O DANFE não é uma nota fiscal, nem substitui uma nota fiscal, " .
-                "servindo apenas como instrumento auxiliar para consulta da NF-e no " .
-                "Ambiente Nacional.</b></p>" .
-                "<p>Para mais detalhes, consulte: <a href=\"http://www.nfe.fazenda.gov.br/\">" .
-                "www.nfe.fazenda.gov.br</a></p>" .
-                "<br>" .
-                "<p>Atenciosamente,</p>" .
-                "<p>{emitente}</p>",
+        'NFe'=> "<p><b>Prezados {destinatario},</b></p>"
+            . "<p>Você está recebendo a Nota Fiscal Eletrônica emitida em {data} com o número "
+            . "{numero}, de {emitente}, no valor de R$ {valor}. "
+            . "Junto com a mercadoria, você receberá também um DANFE (Documento "
+            . "Auxiliar da Nota Fiscal Eletrônica), que acompanha o trânsito das mercadorias.</p>"
+            . "<p><i>Podemos conceituar a Nota Fiscal Eletrônica como um documento "
+            . "de existência apenas digital, emitido e armazenado eletronicamente, "
+            . "com o intuito de documentar, para fins fiscais, uma operação de "
+            . "circulação de mercadorias, ocorrida entre as partes. Sua validade "
+            . "jurídica garantida pela assinatura digital do remetente (garantia "
+            . "de autoria e de integridade) e recepção, pelo Fisco, do documento "
+            . "eletrônico, antes da ocorrência do Fato Gerador.</i></p>"
+            . "<p><i>Os registros fiscais e contábeis devem ser feitos, a partir "
+            . "do próprio arquivo da NF-e, anexo neste e-mail, ou utilizando o "
+            . "DANFE, que representa graficamente a Nota Fiscal Eletrônica. "
+            . "A validade e autenticidade deste documento eletrônico pode ser "
+            . "verificada no site nacional do projeto (www.nfe.fazenda.gov.br), "
+            . "através da chave de acesso contida no DANFE.</i></p>"
+            . "<p><i>Para poder utilizar os dados descritos do DANFE na "
+            . "escrituração da NF-e, tanto o contribuinte destinatário, "
+            . "como o contribuinte emitente, terão de verificar a validade da NF-e. "
+            . "Esta validade está vinculada à efetiva existência da NF-e nos "
+            . "arquivos da SEFAZ, e comprovada através da emissão da Autorização de Uso.</i></p>"
+            . "<p><b>O DANFE não é uma nota fiscal, nem substitui uma nota fiscal, "
+            . "servindo apenas como instrumento auxiliar para consulta da NF-e no "
+            . "Ambiente Nacional.</b></p>"
+            . "<p>Para mais detalhes, consulte: <a href=\"http://www.nfe.fazenda.gov.br/\">"
+            . "www.nfe.fazenda.gov.br</a></p>"
+            . "<br>"
+            . "<p>Atenciosamente,</p>"
+            . "<p>{emitente}</p>",
         
-        'CTe'=> "<p><b>Prezados {destinatario},</b></p>" .
-                "<p>Você está recebendo um Conhecimento de Transporte Eletrônico emitido em {data} com o número " .
-                "{numero}, de {emitente}, no valor de R$ {valor}. " .
-                "Junto com a mercadoria, você receberá também um DACTE (Documento " .
-                "Auxiliar do Conhecimento de Transporte Eletrônico), que acompanha o trânsito das mercadorias.</p>" .
-                "<p><i>Podemos conceituar o CTe como um documento " .
-                "de existência apenas digital, emitido e armazenado eletronicamente, " .
-                "com o intuito de documentar, para fins fiscais, uma operação de " .
-                "circulação de mercadorias, ocorrida entre as partes. Sua validade " .
-                "jurídica garantida pela assinatura digital do remetente (garantia " .
-                "de autoria e de integridade) e recepção, pelo Fisco, do documento " .
-                "eletrônico, antes da ocorrência do Fato Gerador.</i></p>" .
-                "<p><i>Os registros fiscais e contábeis devem ser feitos, a partir " .
-                "do próprio arquivo da NF-e, anexo neste e-mail, ou utilizando o " .
-                "DACTE, que representa graficamente o Conhecimento de Transporte Eletrônico. " .
-                "A validade e autenticidade deste documento eletrônico pode ser " .
-                "verificada no site nacional do projeto (www.cte.fazenda.gov.br), " .
-                "através da chave de acesso contida no DACTE.</i></p>" .
-                "<p><i>Para poder utilizar os dados descritos do DACTE na " .
-                "escrituração do CT-e, tanto o contribuinte destinatário, " .
-                "como o contribuinte emitente, terão de verificar a validade do CT-e. " .
-                "Esta validade está vinculada à efetiva existência do CT-e nos " .
-                "arquivos da SEFAZ, e comprovada através da emissão da Autorização de Uso.</i></p>" .
-                "<p><b>O DACTE não é um Conhecimento de transporte, nem o substitui, " .
-                "servindo apenas como instrumento auxiliar para consulta do CT-e no " .
-                "Ambiente Nacional.</b></p>" .
-                "<p>Para mais detalhes, consulte: <a href=\"http://www.cte.fazenda.gov.br/\">" .
-                "www.cte.fazenda.gov.br</a></p>" .
-                "<br>" .
-                "<p>Atenciosamente,</p>" .
-                "<p>{emitente}</p>",
+        'CTe'=> "<p><b>Prezados {destinatario},</b></p>"
+            . "<p>Você está recebendo um Conhecimento de Transporte Eletrônico emitido em {data} com o número "
+            . "{numero}, de {emitente}, no valor de R$ {valor}. "
+            . "Junto com a mercadoria, você receberá também um DACTE (Documento "
+            . "Auxiliar do Conhecimento de Transporte Eletrônico), que acompanha o trânsito das mercadorias.</p>"
+            . "<p><i>Podemos conceituar o CTe como um documento "
+            . "de existência apenas digital, emitido e armazenado eletronicamente, "
+            . "com o intuito de documentar, para fins fiscais, uma operação de "
+            . "circulação de mercadorias, ocorrida entre as partes. Sua validade "
+            . "jurídica garantida pela assinatura digital do remetente (garantia "
+            . "de autoria e de integridade) e recepção, pelo Fisco, do documento "
+            . "eletrônico, antes da ocorrência do Fato Gerador.</i></p>"
+            . "<p><i>Os registros fiscais e contábeis devem ser feitos, a partir "
+            . "do próprio arquivo da NF-e, anexo neste e-mail, ou utilizando o "
+            . "DACTE, que representa graficamente o Conhecimento de Transporte Eletrônico. "
+            . "A validade e autenticidade deste documento eletrônico pode ser "
+            . "verificada no site nacional do projeto (www.cte.fazenda.gov.br), "
+            . "através da chave de acesso contida no DACTE.</i></p>"
+            . "<p><i>Para poder utilizar os dados descritos do DACTE na "
+            . "escrituração do CT-e, tanto o contribuinte destinatário, "
+            . "como o contribuinte emitente, terão de verificar a validade do CT-e. "
+            . "Esta validade está vinculada à efetiva existência do CT-e nos "
+            . "arquivos da SEFAZ, e comprovada através da emissão da Autorização de Uso.</i></p>"
+            . "<p><b>O DACTE não é um Conhecimento de transporte, nem o substitui, "
+            . "servindo apenas como instrumento auxiliar para consulta do CT-e no "
+            . "Ambiente Nacional.</b></p>"
+            . "<p>Para mais detalhes, consulte: <a href=\"http://www.cte.fazenda.gov.br/\">"
+            . "www.cte.fazenda.gov.br</a></p>"
+            . "<br>"
+            . "<p>Atenciosamente,</p>"
+            . "<p>{emitente}</p>",
                 
-        'CCe'=> "<p><b>Prezados,</b></p>" .
-                "<p>Você está recebendo uma Carta de Correção referente ao nosso documento " .
-                "{chave}.</p><p>Essa carta de correção datada de {data} procura corrigir:</p> " .
-                "<p><b>{correcao}</b></p>" .
-                "<p><i>{conduso}</i></p>" .
-                "<p>Atenciosamente,</p>" .
-                "<p>{emitente}</p>"
+        'CCe'=> "<p><b>Prezados,</b></p>"
+            . "<p>Você está recebendo uma Carta de Correção referente ao nosso documento "
+            . "{chave}.</p><p>Essa carta de correção datada de {data} procura corrigir:</p> "
+            . "<p><b>{correcao}</b></p>"
+            . "<p><i>{conduso}</i></p>"
+            . "<p>Atenciosamente,</p>"
+            . "<p>{emitente}</p>",
+        
+        'CTeOS' => "<p><b>Prezados {destinatario},</b></p>"
+            . "<p>Você está recebendo um Conhecimentode Transporte Eletrônico "
+            . "para Outros Serviços emitido em {data} com o número "
+            . "{numero}, de {emitente}, no valor de R$ {valor}. "
+            . "Junto com a mercadoria, você receberá também um DACTEOS (Documento "
+            . "Auxiliar do Conhecimentode Transporte Eletrônico para Outros "
+            . "Serviços), que acompanha o trânsito das mercadorias.</p>"
+            . "<p><i>Podemos conceituar o CTe-OS como um documento "
+            . "de existência apenas digital, emitido e armazenado eletronicamente, "
+            . "com o intuito de documentar, para fins fiscais, uma operação de "
+            . "circulação de mercadorias, ocorrida entre as partes. Sua validade "
+            . "jurídica garantida pela assinatura digital do remetente (garantia "
+            . "de autoria e de integridade) e recepção, pelo Fisco, do documento "
+            . "eletrônico, antes da ocorrência do Fato Gerador.</i></p>"
+            . "<p><i>Os registros fiscais e contábeis devem ser feitos, a partir "
+            . "do próprio arquivo da CTe-OS, anexo neste e-mail, ou utilizando o "
+            . "DACTEOS, que representa graficamente o Conhecimentode Transporte Eletrônico para Outros Serviços. "
+            . "A validade e autenticidade deste documento eletrônico pode ser "
+            . "verificada no site nacional do projeto (www.cte.fazenda.gov.br), "
+            . "através da chave de acesso contida no DACTEOS.</i></p>"
+            . "<p><i>Para poder utilizar os dados descritos do DACTEOS na "
+            . "escrituração do CTe-OS, tanto o contribuinte destinatário, "
+            . "como o contribuinte emitente, terão de verificar a validade do CT-e. "
+            . "Esta validade está vinculada à efetiva existência do CTe-OS nos "
+            . "arquivos da SEFAZ, e comprovada através da emissão da Autorização de Uso.</i></p>"
+            . "<p><b>O DACTEOS não é um Conhecimento de transporte, nem o substitui, "
+            . "servindo apenas como instrumento auxiliar para consulta do CTe-OS no "
+            . "Ambiente Nacional.</b></p>"
+            . "<p>Para mais detalhes, consulte: <a href=\"http://www.cte.fazenda.gov.br/\">"
+            . "www.cte.fazenda.gov.br</a></p>"
+            . "<br>"
+            . "<p>Atenciosamente,</p>"
+            . "<p>{emitente}</p>",
     ];
     
     /**
@@ -128,8 +162,7 @@ class Base
      * @var \stdClass
      */
     protected $config;
-    
-    
+
     /**
      * Search xml for data
      * @param string $xml
@@ -153,7 +186,7 @@ class Base
                 $this->fields->numero = $ide->getElementsByTagName('nNF')->item(0)->nodeValue;
                 $this->fields->valor = $dom->getElementsByTagName('vNF')->item(0)->nodeValue;
                 $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
-                $this->subject = "NFe n. " . $this->fields->numero . " - " . $this->config->fantasy;
+                $this->subject = "NFe n. {$this->fields->numero} - {$this->config->fantasy}";
                 break;
             case 'cteProc':
             case 'CTe':
@@ -163,7 +196,17 @@ class Base
                 $this->fields->numero = $ide->getElementsByTagName('nCT')->item(0)->nodeValue;
                 $this->fields->valor = $dom->getElementsByTagName('vRec')->item(0)->nodeValue;
                 $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
-                $this->subject = "CTe n. " . $this->fields->numero . " - " . $this->config->fantasy;
+                $this->subject = "CTe n. {$this->fields->numero} - {$this->config->fantasy}";
+                break;
+            case 'cteOSProc':
+            case 'CTeOS':
+                $type = 'CTeOS';
+                $infCte = $dom->getElementsByTagName('infCte')->item(0);
+                $this->fields->id = substr($infCte->getAttribute('Id'), 3) . '-' . strtolower($name);
+                $this->fields->numero = $ide->getElementsByTagName('nCT')->item(0)->nodeValue;
+                $this->fields->valor = $dom->getElementsByTagName('vRec')->item(0)->nodeValue;
+                $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
+                $this->subject = "CTe-OS n. {$this->fields->numero} - {$this->config->fantasy}";
                 break;
             case 'procEventoNFe':
             case 'procEventoCTe':
@@ -176,7 +219,7 @@ class Base
                 if (empty($this->fields->chave)) {
                     $this->fields->chave = $dom->getElementsByTagName('chCTe')->item(0)->nodeValue;
                 }
-                $this->subject = "Carta de Correção " . $this->config->fantasy;
+                $this->subject = "Carta de Correção {$this->config->fantasy}";
                 break;
             default:
                 $type = '';
@@ -212,7 +255,7 @@ class Base
         //xml may be a NFe or a CTe or a CCe nothing else
         if ($type != 'NFe' && $type != 'CTe' && $type != 'CCe') {
             $msg = "Você deve passar apenas uma NFe ou um CTe ou um CCe. "
-                    . "Esse documento não foi reconhecido.";
+              . "Esse documento não foi reconhecido.";
             throw new \InvalidArgumentException($msg);
         }
         $this->type = $type;

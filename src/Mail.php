@@ -62,11 +62,23 @@ class Mail extends Base
         $this->mail->CharSet = 'UTF-8';
         $this->mail->isSMTP();
         $this->mail->Host = $config->host;
-        $this->mail->SMTPAuth = true;
-        $this->mail->Username = $config->user;
-        $this->mail->Password = $config->password;
+        $this->mail->SMTPAuth = $config->smtpauth;
+        if (!empty($config->user) && !empty($config->password)) {
+            $this->mail->SMTPAuth = true;
+            $this->mail->Username = $config->user;
+            $this->mail->Password = $config->password;
+        }
         $this->mail->SMTPSecure = $config->secure;
         $this->mail->Port = $config->port;
+        if (!empty($config->authtype)) {
+            $this->mail->AuthType = $config->authtype;
+        }
+        if (!empty($config->timeout)) {
+            $this->mail->Timeout = $config->timeout;
+        }
+        if (!empty($config->timelimit)) {
+            $this->mail->Timelimit = $config->timelimit;
+        }
         $this->mail->setFrom($config->from, $config->fantasy);
         $this->mail->addReplyTo($config->replyTo, $config->replyName);
     }
