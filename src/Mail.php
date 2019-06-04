@@ -62,11 +62,17 @@ class Mail extends Base
         $this->mail->CharSet = 'UTF-8';
         $this->mail->isSMTP();
         $this->mail->Host = $config->host;
-        $this->mail->SMTPAuth = true;
-        $this->mail->Username = $config->user;
-        $this->mail->Password = $config->password;
+        $this->mail->SMTPAuth = $config->smtpauth;
+        if (!empty($config->user) && !empty($config->password)) {
+            $this->mail->SMTPAuth = true;
+            $this->mail->Username = $config->user;
+            $this->mail->Password = $config->password;
+        }
         $this->mail->SMTPSecure = $config->secure;
         $this->mail->Port = $config->port;
+        if (!empty($config->authtype)) {
+            $this->mail->AuthType = $config->authtype;
+        }
         $this->mail->setFrom($config->from, $config->fantasy);
         $this->mail->addReplyTo($config->replyTo, $config->replyName);
     }
@@ -95,7 +101,7 @@ class Mail extends Base
         $this->xml = trim($xml);
         $this->pdf = trim($pdf);
         if ($this->isFile($this->xml)) {
-            $this->xml = file_get_contents($$this->xml);
+            $this->xml = file_get_contents($this->xml);
         }
         if ($this->isFile($this->pdf)) {
             $this->pdf = file_get_contents($this->pdf);

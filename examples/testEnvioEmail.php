@@ -5,10 +5,12 @@ require_once '../bootstrap.php';
 
 $config = new stdClass();
 $config->host = 'smtp.test.com.br';
+$config->port = 587;
+$config->smtpauth = true;
 $config->user = 'usuario@test.com.br';
 $config->password = 'senha';
 $config->secure = 'tls';
-$config->port = 587;
+$config->authtype = null; //CRAM-MD5, PLAIN, LOGIN, XOAUTH2
 $config->from = 'usuario@test.com.br';
 $config->fantasy = 'Test Ltda';
 $config->replyTo = 'vendas@test.com.br';
