@@ -162,8 +162,7 @@ class Base
      * @var \stdClass
      */
     protected $config;
-    
-    
+
     /**
      * Search xml for data
      * @param string $xml

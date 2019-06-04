@@ -73,6 +73,12 @@ class Mail extends Base
         if (!empty($config->authtype)) {
             $this->mail->AuthType = $config->authtype;
         }
+        if (!empty($config->timeout)) {
+            $this->mail->Timeout = $config->timeout;
+        }
+        if (!empty($config->timelimit)) {
+            $this->mail->Timelimit = $config->timelimit;
+        }
         $this->mail->setFrom($config->from, $config->fantasy);
         $this->mail->addReplyTo($config->replyTo, $config->replyName);
     }

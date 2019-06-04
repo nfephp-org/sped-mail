@@ -15,6 +15,8 @@ $config->from = 'usuario@test.com.br';
 $config->fantasy = 'Test Ltda';
 $config->replyTo = 'vendas@test.com.br';
 $config->replyName = 'Vendas';
+//$config->timeout = 30; //Quanto tempo aguardar a conexão para abrir, em segundos. O padrão de 5 minutos (300s) é da seção RFC2821 4.5.3.2 Isso precisa ser bem alto para funcionar corretamente com hosts usando greetdelay como medida anti-spam.
+//$config->timelimit = 30; //Quanto tempo esperar pelos comandos para concluir, em segundos. O padrão de 5 minutos (300s) é da seção RFC2821 4.5.3.2
 
 use NFePHP\Mail\Mail;
 
