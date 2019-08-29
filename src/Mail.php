@@ -79,6 +79,15 @@ class Mail extends Base
         if (!empty($config->timelimit)) {
             $this->mail->Timelimit = $config->timelimit;
         }
+        if (is_array($config->smtpoptions)) {
+            $this->mail->SMTPOptions = $config->smtpoptions;
+        }
+        if (!empty($config->smtpdebug)) {
+            $this->mail->SMTPDebug = $config->smtpdebug;
+        }
+        if (!empty($config->debugoutput)) {
+            $this->mail->Debugoutput = $config->debugoutput;
+        }        
         $this->mail->setFrom($config->from, $config->fantasy);
         $this->mail->addReplyTo($config->replyTo, $config->replyName);
     }
