@@ -87,7 +87,7 @@ class Mail extends Base
         }
         if (!empty($config->debugoutput)) {
             $this->mail->Debugoutput = $config->debugoutput;
-        }        
+        }
         $this->mail->setFrom($config->from, $config->fantasy);
         $this->mail->addReplyTo($config->replyTo, $config->replyName);
     }
