@@ -191,6 +191,6 @@ $addresses = (OPCIONAL) ['<endereços de email>']
 - $xml = (OBRIGATÓRIO) path do documento ou o próprio conteúdo do xml em uma string
 - $pdf = (OPCIONAL) path do documento ou o próprio conteúdo do pdf em uma string
 - $addresses = (OPCIONAL) ['<endereços de email>']
-- $htmltemplate = (OPCIONAL) string contendo oum template alternativo
+- $htmltemplate = (OPCIONAL) string contendo um template alternativo
 
 > NOTA: não está prevista a inclusão de imagens estaticas ou logos no corpo do email, se isso for desejável o template já deverá contê-las.
