@@ -1,5 +1,9 @@
 {
+<<<<<<< HEAD
     "name": "guicalabria/sped-mail",
+=======
+    "name": "nfephp-org/sped-mail",
+>>>>>>> 719185306c71d2a7ba7452771a9f03f92843fb36
     "type": "library",
     "description": "API para geração e envio dos emails relacionados com o SPED.",
     "keywords": ["nfse", "sped", "nfephp"],

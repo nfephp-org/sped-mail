@@ -1,0 +1,13 @@
+.settings
+.buildpath
+.project
+.idea
+nbproject
+local
+vendor
+build
+*~
+certs/*.pfx
+certs/*.pem
+config/*.json
+composer.lock
