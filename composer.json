@@ -19,7 +19,7 @@
     ],
     "require": {
         "php" : ">= 7.0",
-        "guicalabria/phpmailer": "^6.4",
+        "guicalabria/phpmailer": "^6.0",
         "soundasleep/html2text": "~0.3"
     },
     "require-dev": {
