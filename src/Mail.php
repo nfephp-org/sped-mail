@@ -82,11 +82,8 @@ class Mail extends Base
         if (!empty($config->timelimit)) {
             $this->mail->Timelimit = $config->timelimit;
         }
-<<<<<<< HEAD
-        if (isset($config->smtpoptions) && is_array($config->smtpoptions)) {
-=======
         if (is_array($config->smtpoptions)) {
->>>>>>> 719185306c71d2a7ba7452771a9f03f92843fb36
+        if (is_array($config->smtpoptions)) {
             $this->mail->SMTPOptions = $config->smtpoptions;
         }
         if (!empty($config->smtpdebug)) {
