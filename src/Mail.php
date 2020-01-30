@@ -36,11 +36,11 @@ class Mail extends Base
      * Constructor
      * @param \stdClass $config
      */
-    public function __construct(\stdClass $config, PHPMailer $mailer = null)
+    public function __construct(\stdClass $config, \PHPMailer\PHPMailer\PHPMailer $mailer = null)
     {
         $this->mail = $mailer;
         if (is_null($mailer)) {
-            $this->mail = new PHPMailer();
+            $this->mail = new \PHPMailer\PHPMailer\PHPMailer();
         }
         
         $this->config = $config;
