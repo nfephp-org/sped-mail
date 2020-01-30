@@ -36,9 +36,12 @@ class Mail extends Base
      * Constructor
      * @param \stdClass $config
      */
-    public function __construct(\stdClass $config)
+    public function __construct(\stdClass $config, PHPMailer $mailer = null)
     {
-        $this->mail = new PHPMailer();
+        $this->mail = $mailer;
+        if (is_null($mailer)) {
+            $this->mail = new PHPMailer();
+        }
         
         $this->config = $config;
         $this->loadService($config);
