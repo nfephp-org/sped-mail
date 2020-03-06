@@ -17,7 +17,9 @@ namespace NFePHP\Mail;
 
 use NFePHP\Mail\Base;
 use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
 use Html2Text\Html2Text;
+use NFePHP\Common\Certificate;
 
 class Mail extends Base
 {
@@ -31,6 +33,13 @@ class Mail extends Base
      * @var string
      */
     public $subject;
+    /**
+     * Certificate class
+     * @var Certificate
+     */
+    protected $certificate;
+    
+    protected $sign = false;
 
     /**
      * Constructor
@@ -65,32 +74,35 @@ class Mail extends Base
         $this->mail->CharSet = 'UTF-8';
         $this->mail->isSMTP();
         $this->mail->Host = $config->host;
-        $this->mail->SMTPAuth = $config->smtpauth;
+        $this->mail->Timeout = !empty($config->timeout)
+            ? $config->timeout
+            : 300;
+        $this->mail->SMTPAuth = !empty($config->smtpauth)
+            ? $config->smtpauth
+            : false;
+        $this->mail->AuthType = !empty($config->authtype)
+            ? $config->authtype
+            : '';
+        $this->mail->SMTPSecure = !empty($config->secure)
+            ? $config->secure
+            : '';
+                $this->mail->Port = !empty($config->port)
+            ? $config->port
+            : 25;
         if (!empty($config->user) && !empty($config->password)) {
             $this->mail->SMTPAuth = true;
             $this->mail->Username = $config->user;
             $this->mail->Password = $config->password;
         }
-        $this->mail->SMTPSecure = $config->secure;
-        $this->mail->Port = $config->port;
-        if (!empty($config->authtype)) {
-            $this->mail->AuthType = $config->authtype;
-        }
-        if (!empty($config->timeout)) {
-            $this->mail->Timeout = $config->timeout;
-        }
-        if (!empty($config->timelimit)) {
-            $this->mail->Timelimit = $config->timelimit;
-        }
         if (!empty($config->smtpoptions) && is_array($config->smtpoptions)) {
             $this->mail->SMTPOptions = $config->smtpoptions;
         }
-        if (!empty($config->smtpdebug)) {
-            $this->mail->SMTPDebug = $config->smtpdebug;
-        }
-        if (!empty($config->debugoutput)) {
-            $this->mail->Debugoutput = $config->debugoutput;
-        }
+        $this->mail->SMTPDebug = isset($config->smtpdebug)
+            ? $config->smtpdebug
+            : 0;
+        $this->mail->Debugoutput = !empty($config->debugoutput)
+            ? $config->debugoutput
+            : '';
         $this->mail->setFrom($config->from, $config->fantasy);
         $this->mail->addReplyTo($config->replyTo, $config->replyName);
     }
@@ -101,11 +113,27 @@ class Mail extends Base
      * see Base::class
      * @param string $htmlTemplate
      */
-    public function loadTemplate($htmlTemplate)
+    public function loadTemplate($htmlTemplate = '')
     {
         if ($htmlTemplate != '') {
             $this->template = $htmlTemplate;
         }
+    }
+    
+    /**
+     * Enable S/MIME signed mail
+     * @param null|string $pfx
+     * @param null|string $password
+     * @return void
+     */
+    public function enableSignature($pfx = null, $password = null)
+    {
+        if (empty($pfx) || empty($password)) {
+            $this->sign = false;
+            return;
+        }
+        $this->certificate = Certificate::readPfx($pfx, $password);
+        $this->sign = true;
     }
 
     /**
@@ -171,12 +199,29 @@ class Mail extends Base
         $this->mail->Body = $body;
         $this->mail->AltBody = Html2Text::convert($body);
         $this->attach();
+        if ($this->sign) {
+            $dir = sys_get_temp_dir();
+            $cert = tempnam($dir, 'cert_'). '.pem';
+            $key = tempnam($dir, 'key_') . '.pem';
+            file_put_contents($cert, "{$this->certificate->publicKey}");
+            file_put_contents($key, "{$this->certificate->privateKey}");
+            $this->mail->sign(
+                $cert,
+                $key,
+                '',
+                ''
+            );
+        }
         if (!$this->mail->send()) {
             $msg = 'A mensagem não pode ser enviada. Mail Error: ' . $this->mail->ErrorInfo;
+            !empty($cert) ? unlink($cert) : null;
+            !empty($key) ? unlink($key) : null;
             throw new \RuntimeException($msg);
         }
         $this->mail->clearAllRecipients();
         $this->mail->clearAttachments();
+        !empty($cert) ? unlink($cert) : null;
+        !empty($key) ? unlink($key) : null;
         return true;
     }
 
@@ -187,7 +232,9 @@ class Mail extends Base
      * @param string $pdf
      * @param array $addresses
      * @param string $htmltemplate
-     * @param PHPMailer $mailer
+     * @param null|string $pfx
+     * @param null|string $password
+     * @param null|PHPMailer $mailer
      * @return Mail
      */
     public static function sendMail(
@@ -196,11 +243,14 @@ class Mail extends Base
         $pdf = '',
         array $addresses = [],
         $htmltemplate = '',
+        $pfx = null,
+        $password = null,
         PHPMailer $mailer = null
     ) {
         $mail = new static($config, $mailer);
         $mail->loadDocuments($xml, $pdf);
         $mail->loadTemplate($htmltemplate);
+        $mail->enableSignature($pfx, $password);
         $mail->send($addresses, false);
         return $mail;
     }
