@@ -16,7 +16,7 @@ namespace NFePHP\Mail;
  */
 
 use NFePHP\Mail\Base;
-use PHPMailer;
+use PHPMailer\PHPMailer\PHPMailer;
 use Html2Text\Html2Text;
 
 class Mail extends Base
