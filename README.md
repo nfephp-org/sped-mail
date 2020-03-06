@@ -47,21 +47,37 @@ Essa classe pode ser usada de duas formas distintas.
 
 ## 1 - Usando o método estatico:
 ```php
-$resp = Mail::sendMail($config, $xml, $pdf, $addresses, $template);
+$resp = Mail::sendMail($config, $xml, $pdf, $addresses, $template, $pfx, $password, $mailer);
 ```
 Onde :
 $config é um stdClass contendo as configuração de seu SMTP (OBRIGATÓRIO)
 ```php
+
 $config = new stdClass();
-$config->host = 'smtp.test.com.br';
-$config->user = 'usuario@test.com.br';
+$config->smtpdebug = 0; //0-no 1-client 2-server 3-connection 4-lowlevel
+$config->host = 'smtp.example.com.br';
+$config->port = 587; //25 ou 465 ou 587
+$config->smtpauth = true;
+$config->user = 'fulano@example.com.br';
 $config->password = 'senha';
 $config->secure = 'tls';
-$config->port = 587;
-$config->from = 'usuario@test.com.br';
-$config->fantasy = 'Test Ltda';
-$config->replyTo = 'vendas@test.com.br';
-$config->replyName = 'Vendas';
+$config->authtype = ''; //'', CRAM-MD5, PLAIN, LOGIN, XOAUTH2
+$config->from = 'fulano@example.com.br';
+$config->fantasy = 'Fulanoda Silva';
+$config->replyTo = 'ciclano@mail.com';
+$config->replyName = 'Ciclano Moreira';
+$config->smtpoptions = null; /*[
+    'ssl' => [
+        'verify_peer' => true,
+        'verify_depth' => 3,
+        'allow_self_signed' => true,
+        'peer_name' => 'smtp.example.com',
+        'cafile' => '/etc/ssl/ca_cert.pem',
+    ]
+];*/
+$config->timeout = 130;
+
+
 ```
 $xml é o path ou o conteudo do xml que se deseja enviar (OBRIGATÓRIO)
 ```php
@@ -91,6 +107,21 @@ Use como referencia os templates padrões para criar o seu veja isso na classe B
 ```php
 $template = '<p>Meu HTML {emitente} .... ';
 ```
+O pfx é o conteudo do certificado pfx (OPCIONAL), que pode ser lido de um arquivo ou diretamente da sua base de dados.
+```php
+$pfx = file_get_contents('path ao certificado pfx');
+```
+
+Password é a senha do certificado pfx para que possa ser usado (OPCIONAL), é claro que se o certificado for passado a senha também severá ser passada.
+```php
+$password = 'senha';
+```
+
+O último parametro é uma instácia já existente do PHPMailer.
+```php
+$mailer = new PHPMailer();
+```
+
 
 Para maiores detalhes veja os exemplos indicados na pasta examples.
 
