@@ -35,11 +35,14 @@ class Mail extends Base
     /**
      * Constructor
      * @param \stdClass $config
+     * @param PHPMailer $mailer
      */
-    public function __construct(\stdClass $config)
+    public function __construct(\stdClass $config, PHPMailer $mailer = null)
     {
-        $this->mail = new PHPMailer();
-        
+        $this->mail = $mailer;
+        if (is_null($mailer)) {
+            $this->mail = new PHPMailer();
+        }
         $this->config = $config;
         $this->loadService($config);
         $this->fields = new \stdClass();
@@ -78,6 +81,9 @@ class Mail extends Base
         }
         if (!empty($config->timelimit)) {
             $this->mail->Timelimit = $config->timelimit;
+        }
+        if (!empty($config->smtpoptions) && is_array($config->smtpoptions)) {
+            $this->mail->SMTPOptions = $config->smtpoptions;
         }
         $this->mail->setFrom($config->from, $config->fantasy);
         $this->mail->addReplyTo($config->replyTo, $config->replyName);
