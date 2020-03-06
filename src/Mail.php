@@ -35,7 +35,7 @@ class Mail extends Base
     /**
      * Constructor
      * @param \stdClass $config
-     * @param PHPMailer\PHPMailer\PHPMailer $mailer
+     * @param null|\PHPMailer\PHPMailer\PHPMailer $mailer
      */
     public function __construct(\stdClass $config, PHPMailer $mailer = null)
     {
