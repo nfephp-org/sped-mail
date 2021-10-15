@@ -248,7 +248,8 @@ final class Mail extends Base
             );
         }
         if (!$this->mail->send()) {
-            $msg = 'A mensagem não pode ser enviada. Mail Error: ' . $this->mail->ErrorInfo;
+            $msg = 'A mensagem não pode ser enviada. Mail Error: '
+                . $this->mail->ErrorInfo;
             !empty($cert) ? unlink($cert) : null;
             !empty($key) ? unlink($key) : null;
             throw new \RuntimeException($msg);

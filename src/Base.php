@@ -33,10 +33,12 @@ class Base
      */
     protected $templates = [
         'NFe'=> "<p><b>Prezados {destinatario},</b></p>"
-            . "<p>Você está recebendo a Nota Fiscal Eletrônica emitida em {data} com o número "
+            . "<p>Você está recebendo a Nota Fiscal Eletrônica emitida em "
+            . "{data} com o número "
             . "{numero}, de {emitente}, no valor de R$ {valor}. "
             . "Junto com a mercadoria, você receberá também um DANFE (Documento "
-            . "Auxiliar da Nota Fiscal Eletrônica), que acompanha o trânsito das mercadorias.</p>"
+            . "Auxiliar da Nota Fiscal Eletrônica), que acompanha o trânsito "
+            . "das mercadorias.</p>"
             . "<p><i>Podemos conceituar a Nota Fiscal Eletrônica como um documento "
             . "de existência apenas digital, emitido e armazenado eletronicamente, "
             . "com o intuito de documentar, para fins fiscais, uma operação de "
@@ -54,21 +56,25 @@ class Base
             . "escrituração da NF-e, tanto o contribuinte destinatário, "
             . "como o contribuinte emitente, terão de verificar a validade da NF-e. "
             . "Esta validade está vinculada à efetiva existência da NF-e nos "
-            . "arquivos da SEFAZ, e comprovada através da emissão da Autorização de Uso.</i></p>"
+            . "arquivos da SEFAZ, e comprovada através da emissão da "
+            . "Autorização de Uso.</i></p>"
             . "<p><b>O DANFE não é uma nota fiscal, nem substitui uma nota fiscal, "
             . "servindo apenas como instrumento auxiliar para consulta da NF-e no "
             . "Ambiente Nacional.</b></p>"
-            . "<p>Para mais detalhes, consulte: <a href=\"http://www.nfe.fazenda.gov.br/\">"
+            . "<p>Para mais detalhes, consulte: "
+            . "<a href=\"http://www.nfe.fazenda.gov.br/\">"
             . "www.nfe.fazenda.gov.br</a></p>"
             . "<br>"
             . "<p>Atenciosamente,</p>"
             . "<p>{emitente}</p>",
         
         'CTe'=> "<p><b>Prezados {destinatario},</b></p>"
-            . "<p>Você está recebendo um Conhecimento de Transporte Eletrônico emitido em {data} com o número "
+            . "<p>Você está recebendo um Conhecimento de Transporte Eletrônico "
+            . "emitido em {data} com o número "
             . "{numero}, de {emitente}, no valor de R$ {valor}. "
             . "Junto com a mercadoria, você receberá também um DACTE (Documento "
-            . "Auxiliar do Conhecimento de Transporte Eletrônico), que acompanha o trânsito das mercadorias.</p>"
+            . "Auxiliar do Conhecimento de Transporte Eletrônico), que acompanha "
+            . "o trânsito das mercadorias.</p>"
             . "<p><i>Podemos conceituar o CTe como um documento "
             . "de existência apenas digital, emitido e armazenado eletronicamente, "
             . "com o intuito de documentar, para fins fiscais, uma operação de "
@@ -78,7 +84,8 @@ class Base
             . "eletrônico, antes da ocorrência do Fato Gerador.</i></p>"
             . "<p><i>Os registros fiscais e contábeis devem ser feitos, a partir "
             . "do próprio arquivo da NF-e, anexo neste e-mail, ou utilizando o "
-            . "DACTE, que representa graficamente o Conhecimento de Transporte Eletrônico. "
+            . "DACTE, que representa graficamente o Conhecimento de Transporte "
+            . "Eletrônico. "
             . "A validade e autenticidade deste documento eletrônico pode ser "
             . "verificada no site nacional do projeto (www.cte.fazenda.gov.br), "
             . "através da chave de acesso contida no DACTE.</i></p>"
@@ -86,19 +93,23 @@ class Base
             . "escrituração do CT-e, tanto o contribuinte destinatário, "
             . "como o contribuinte emitente, terão de verificar a validade do CT-e. "
             . "Esta validade está vinculada à efetiva existência do CT-e nos "
-            . "arquivos da SEFAZ, e comprovada através da emissão da Autorização de Uso.</i></p>"
+            . "arquivos da SEFAZ, e comprovada através da emissão da "
+            . "Autorização de Uso.</i></p>"
             . "<p><b>O DACTE não é um Conhecimento de transporte, nem o substitui, "
             . "servindo apenas como instrumento auxiliar para consulta do CT-e no "
             . "Ambiente Nacional.</b></p>"
-            . "<p>Para mais detalhes, consulte: <a href=\"http://www.cte.fazenda.gov.br/\">"
+            . "<p>Para mais detalhes, consulte: "
+            . "<a href=\"http://www.cte.fazenda.gov.br/\">"
             . "www.cte.fazenda.gov.br</a></p>"
             . "<br>"
             . "<p>Atenciosamente,</p>"
             . "<p>{emitente}</p>",
                 
         'CCe'=> "<p><b>Prezados,</b></p>"
-            . "<p>Você está recebendo uma Carta de Correção referente ao nosso documento "
-            . "{chave}.</p><p>Essa carta de correção datada de {data} procura corrigir:</p> "
+            . "<p>Você está recebendo uma Carta de Correção referente ao "
+            . "nosso documento "
+            . "{chave}.</p><p>Essa carta de correção datada de {data} "
+            . "procura corrigir:</p> "
             . "<p><b>{correcao}</b></p>"
             . "<p><i>{conduso}</i></p>"
             . "<p>Atenciosamente,</p>"
@@ -120,7 +131,8 @@ class Base
             . "eletrônico, antes da ocorrência do Fato Gerador.</i></p>"
             . "<p><i>Os registros fiscais e contábeis devem ser feitos, a partir "
             . "do próprio arquivo da CTe-OS, anexo neste e-mail, ou utilizando o "
-            . "DACTEOS, que representa graficamente o Conhecimentode Transporte Eletrônico para Outros Serviços. "
+            . "DACTEOS, que representa graficamente o Conhecimentode Transporte "
+            . "Eletrônico para Outros Serviços. "
             . "A validade e autenticidade deste documento eletrônico pode ser "
             . "verificada no site nacional do projeto (www.cte.fazenda.gov.br), "
             . "através da chave de acesso contida no DACTEOS.</i></p>"
@@ -128,11 +140,15 @@ class Base
             . "escrituração do CTe-OS, tanto o contribuinte destinatário, "
             . "como o contribuinte emitente, terão de verificar a validade do CT-e. "
             . "Esta validade está vinculada à efetiva existência do CTe-OS nos "
-            . "arquivos da SEFAZ, e comprovada através da emissão da Autorização de Uso.</i></p>"
-            . "<p><b>O DACTEOS não é um Conhecimento de transporte, nem o substitui, "
-            . "servindo apenas como instrumento auxiliar para consulta do CTe-OS no "
+            . "arquivos da SEFAZ, e comprovada através da emissão da "
+            . "Autorização de Uso.</i></p>"
+            . "<p><b>O DACTEOS não é um Conhecimento de transporte, nem o "
+            . "substitui, "
+            . "servindo apenas como instrumento auxiliar para consulta do "
+            . "CTe-OS no "
             . "Ambiente Nacional.</b></p>"
-            . "<p>Para mais detalhes, consulte: <a href=\"http://www.cte.fazenda.gov.br/\">"
+            . "<p>Para mais detalhes, consulte: "
+            . "<a href=\"http://www.cte.fazenda.gov.br/\">"
             . "www.cte.fazenda.gov.br</a></p>"
             . "<br>"
             . "<p>Atenciosamente,</p>"
@@ -218,42 +234,63 @@ class Base
         case 'NFe':
             $type = 'NFe';
             $infNFe = $dom->getElementsByTagName('infNFe')->item(0);
-            $this->fields->id = substr($infNFe->getAttribute('Id'), 3) . '-' . strtolower($name);
-            $this->fields->numero = $ide->getElementsByTagName('nNF')->item(0)->nodeValue;
-            $this->fields->valor = $dom->getElementsByTagName('vNF')->item(0)->nodeValue;
-            $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
-            $this->subject = "NFe n. {$this->fields->numero} - {$this->config->fantasy}";
+            $this->fields->id = substr($infNFe->getAttribute('Id'), 3)
+                . '-' . strtolower($name);
+            $this->fields->numero = $ide->getElementsByTagName('nNF')
+                ->item(0)->nodeValue;
+            $this->fields->valor = $dom->getElementsByTagName('vNF')
+                ->item(0)->nodeValue;
+            $this->fields->data = $ide->getElementsByTagName('dhEmi')
+                ->item(0)->nodeValue;
+            $this->subject = "NFe n. {$this->fields->numero} "
+            . "- {$this->config->fantasy}";
             break;
         case 'cteProc':
         case 'CTe':
             $type = 'CTe';
             $infCte = $dom->getElementsByTagName('infCte')->item(0);
-            $this->fields->id = substr($infCte->getAttribute('Id'), 3) . '-' . strtolower($name);
-            $this->fields->numero = $ide->getElementsByTagName('nCT')->item(0)->nodeValue;
-            $this->fields->valor = $dom->getElementsByTagName('vRec')->item(0)->nodeValue;
-            $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
-            $this->subject = "CTe n. {$this->fields->numero} - {$this->config->fantasy}";
+            $this->fields->id = substr($infCte->getAttribute('Id'), 3)
+                . '-' . strtolower($name);
+            $this->fields->numero = $ide->getElementsByTagName('nCT')
+                ->item(0)->nodeValue;
+            $this->fields->valor = $dom->getElementsByTagName('vRec')
+                ->item(0)->nodeValue;
+            $this->fields->data = $ide->getElementsByTagName('dhEmi')
+                ->item(0)->nodeValue;
+            $this->subject = "CTe n. {$this->fields->numero} "
+            . "- {$this->config->fantasy}";
             break;
         case 'cteOSProc':
         case 'CTeOS':
             $type = 'CTeOS';
             $infCte = $dom->getElementsByTagName('infCte')->item(0);
-            $this->fields->id = substr($infCte->getAttribute('Id'), 3) . '-' . strtolower($name);
-            $this->fields->numero = $ide->getElementsByTagName('nCT')->item(0)->nodeValue;
-            $this->fields->valor = $dom->getElementsByTagName('vRec')->item(0)->nodeValue;
-            $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
-            $this->subject = "CTe-OS n. {$this->fields->numero} - {$this->config->fantasy}";
+            $this->fields->id = substr($infCte->getAttribute('Id'), 3)
+                . '-' . strtolower($name);
+            $this->fields->numero = $ide->getElementsByTagName('nCT')
+                ->item(0)->nodeValue;
+            $this->fields->valor = $dom->getElementsByTagName('vRec')
+                ->item(0)->nodeValue;
+            $this->fields->data = $ide->getElementsByTagName('dhEmi')
+                ->item(0)->nodeValue;
+            $this->subject = "CTe-OS n. {$this->fields->numero} "
+            . "- {$this->config->fantasy}";
             break;
         case 'procEventoNFe':
         case 'procEventoCTe':
             $type = 'CCe';
-            $this->fields->chave = $dom->getElementsByTagName('chNFe')->item(0)->nodeValue;
-            $this->fields->id = $this->fields->chave.'-procCCe-'.strtolower(substr($name, -3));
-            $this->fields->data = $dom->getElementsByTagName('dhEvento')->item(0)->nodeValue;
-            $this->fields->correcao = $dom->getElementsByTagName('xCorrecao')->item(0)->nodeValue;
-            $this->fields->conduso = $dom->getElementsByTagName('xCondUso')->item(0)->nodeValue;
+            $this->fields->chave = $dom->getElementsByTagName('chNFe')
+                ->item(0)->nodeValue;
+            $this->fields->id = $this->fields->chave.'-procCCe-'
+                . strtolower(substr($name, -3));
+            $this->fields->data = $dom->getElementsByTagName('dhEvento')
+                ->item(0)->nodeValue;
+            $this->fields->correcao = $dom->getElementsByTagName('xCorrecao')
+                ->item(0)->nodeValue;
+            $this->fields->conduso = $dom->getElementsByTagName('xCondUso')
+                ->item(0)->nodeValue;
             if (empty($this->fields->chave)) {
-                $this->fields->chave = $dom->getElementsByTagName('chCTe')->item(0)->nodeValue;
+                $this->fields->chave = $dom->getElementsByTagName('chCTe')
+                    ->item(0)->nodeValue;
             }
             $this->subject = "Carta de Correção {$this->config->fantasy}";
             break;
@@ -263,8 +300,12 @@ class Base
         //get email adresses from xml, if exists
         //may have one address in <dest><email>
         if (!empty($dest)) {
-            $this->fields->destinatario = $dest->getElementsByTagName('xNome')->item(0)->nodeValue;
-            $email = !empty($dest->getElementsByTagName('email')->item(0)->nodeValue) ?
+            $this->fields->destinatario = $dest->getElementsByTagName('xNome')
+                ->item(0)->nodeValue;
+            $email = !empty(
+                $dest->getElementsByTagName('email')
+                    ->item(0)->nodeValue
+            ) ?
                 $dest->getElementsByTagName('email')->item(0)->nodeValue : '';
         }
         if (!empty($email)) {
@@ -283,11 +324,13 @@ class Base
                 $this->addresses[] = $email;
             }
         }
-        //may have others in <obsCont xCampo="email"><xTexto>fulano@yahoo.com.br</xTexto>
+        //may have others in 
+        //<obsCont xCampo="email"><xTexto>fulano@yahoo.com.br</xTexto>
         $obs = $dom->getElementsByTagName('obsCont');
         foreach ($obs as $ob) {
             if (strtoupper($ob->getAttribute('xCampo')) === 'EMAIL') {
-                $this->addresses[] = $ob->getElementsByTagName('xTexto')->item(0)->nodeValue;
+                $this->addresses[] = $ob->getElementsByTagName('xTexto')
+                    ->item(0)->nodeValue;
             }
         }
         //xml may be a NFe or a CTe or a CCe nothing else
@@ -379,8 +422,14 @@ class Base
         //This resulted array should be repeated fields removed
         //and all not valid strings, and also trim and strtolower strings
         $this->addresses = array_unique($this->addresses);
-        $this->addresses = array_map(array($this, 'clearAddressString'), $this->addresses);
-        $this->addresses = array_filter($this->addresses, array($this, 'checkEmailAddress'));
+        $this->addresses = array_map(
+            array($this, 'clearAddressString'),
+            $this->addresses
+        );
+        $this->addresses = array_filter(
+            $this->addresses,
+            array($this, 'checkEmailAddress')
+        );
     }
     
     /**
