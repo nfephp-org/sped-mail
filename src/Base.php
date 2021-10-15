@@ -1,11 +1,34 @@
 <?php
 
+/**
+ * This file belongs to the NFePHP project
+ * php version 7.0 or higher
+ * 
+ * @category  Library
+ * @package   NFePHP\Mail\Mail
+ * @author    Roberto L. Machado <linux.rlm@gmail.com>
+ * @copyright 2008 NFePHP Copyright (c)
+ * @license   https://opensource.org/licenses/MIT MIT
+ * @link      http://github.com/nfephp-org/sped-mail
+ */
+
 namespace NFePHP\Mail;
 
+/**
+ * Base class
+ * 
+ * @category  Library
+ * @package   NFePHP\Mail\Mail
+ * @author    Roberto L. Machado <linux.rlm@gmail.com>
+ * @copyright 2008 NFePHP Copyright (c)
+ * @license   https://opensource.org/licenses/MIT MIT
+ * @link      http://github.com/nfephp-org/sped-mail
+ */
 class Base
 {
     /**
      * Html Templates
+     *
      * @var array
      */
     protected $templates = [
@@ -117,55 +140,68 @@ class Base
     ];
     
     /**
-     * template user-defined
+     * Template user defined
+     *
      * @var string
      */
     public $template;
     /**
      * Type from xml document NFe, CTe or CCe
+     *
      * @var string
      */
     protected $type;
     /**
      * Addresses to send mail
      * This array should be repeated fields removed
+     *
      * @var array
      */
     protected $addresses = [];
     /**
      * Assunto do email
+     *
      * @var string
      */
     protected $subject;
     /**
      * Fields from xml
+     *
      * @var \stdClass
      */
     public $fields;
     /**
      * PHPMailer class
-     * @var \PHPMailer
+     *
+     * @var \PHPMailer\PHPMailer\PHPMailer|null
      */
     protected $mail;
     /**
      * Xml content
+     *
      * @var string
      */
     public $xml;
     /**
      * PDF content
+     *
      * @var string
      */
     public $pdf;
     /**
-     * config
+     * Config
+     *
      * @var \stdClass
      */
     protected $config;
 
     /**
      * Search xml for data
-     * @param string $xml
+     *
+     * @param string $xml xml do documento
+     * 
+     * @return void
+     * 
      * @throws \InvalidArgumentException
      */
     protected function getXmlData($xml)
@@ -178,51 +214,51 @@ class Base
         $dest = $dom->getElementsByTagName('dest')->item(0);
         $ide = $dom->getElementsByTagName('ide')->item(0);
         switch ($name) {
-            case 'nfeProc':
-            case 'NFe':
-                $type = 'NFe';
-                $infNFe = $dom->getElementsByTagName('infNFe')->item(0);
-                $this->fields->id = substr($infNFe->getAttribute('Id'), 3) . '-' . strtolower($name);
-                $this->fields->numero = $ide->getElementsByTagName('nNF')->item(0)->nodeValue;
-                $this->fields->valor = $dom->getElementsByTagName('vNF')->item(0)->nodeValue;
-                $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
-                $this->subject = "NFe n. {$this->fields->numero} - {$this->config->fantasy}";
-                break;
-            case 'cteProc':
-            case 'CTe':
-                $type = 'CTe';
-                $infCte = $dom->getElementsByTagName('infCte')->item(0);
-                $this->fields->id = substr($infCte->getAttribute('Id'), 3) . '-' . strtolower($name);
-                $this->fields->numero = $ide->getElementsByTagName('nCT')->item(0)->nodeValue;
-                $this->fields->valor = $dom->getElementsByTagName('vRec')->item(0)->nodeValue;
-                $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
-                $this->subject = "CTe n. {$this->fields->numero} - {$this->config->fantasy}";
-                break;
-            case 'cteOSProc':
-            case 'CTeOS':
-                $type = 'CTeOS';
-                $infCte = $dom->getElementsByTagName('infCte')->item(0);
-                $this->fields->id = substr($infCte->getAttribute('Id'), 3) . '-' . strtolower($name);
-                $this->fields->numero = $ide->getElementsByTagName('nCT')->item(0)->nodeValue;
-                $this->fields->valor = $dom->getElementsByTagName('vRec')->item(0)->nodeValue;
-                $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
-                $this->subject = "CTe-OS n. {$this->fields->numero} - {$this->config->fantasy}";
-                break;
-            case 'procEventoNFe':
-            case 'procEventoCTe':
-                $type = 'CCe';
-                $this->fields->chave = $dom->getElementsByTagName('chNFe')->item(0)->nodeValue;
-                $this->fields->id = $this->fields->chave.'-procCCe-'.strtolower(substr($name, -3));
-                $this->fields->data = $dom->getElementsByTagName('dhEvento')->item(0)->nodeValue;
-                $this->fields->correcao = $dom->getElementsByTagName('xCorrecao')->item(0)->nodeValue;
-                $this->fields->conduso = $dom->getElementsByTagName('xCondUso')->item(0)->nodeValue;
-                if (empty($this->fields->chave)) {
-                    $this->fields->chave = $dom->getElementsByTagName('chCTe')->item(0)->nodeValue;
-                }
-                $this->subject = "Carta de Correção {$this->config->fantasy}";
-                break;
-            default:
-                $type = '';
+        case 'nfeProc':
+        case 'NFe':
+            $type = 'NFe';
+            $infNFe = $dom->getElementsByTagName('infNFe')->item(0);
+            $this->fields->id = substr($infNFe->getAttribute('Id'), 3) . '-' . strtolower($name);
+            $this->fields->numero = $ide->getElementsByTagName('nNF')->item(0)->nodeValue;
+            $this->fields->valor = $dom->getElementsByTagName('vNF')->item(0)->nodeValue;
+            $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
+            $this->subject = "NFe n. {$this->fields->numero} - {$this->config->fantasy}";
+            break;
+        case 'cteProc':
+        case 'CTe':
+            $type = 'CTe';
+            $infCte = $dom->getElementsByTagName('infCte')->item(0);
+            $this->fields->id = substr($infCte->getAttribute('Id'), 3) . '-' . strtolower($name);
+            $this->fields->numero = $ide->getElementsByTagName('nCT')->item(0)->nodeValue;
+            $this->fields->valor = $dom->getElementsByTagName('vRec')->item(0)->nodeValue;
+            $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
+            $this->subject = "CTe n. {$this->fields->numero} - {$this->config->fantasy}";
+            break;
+        case 'cteOSProc':
+        case 'CTeOS':
+            $type = 'CTeOS';
+            $infCte = $dom->getElementsByTagName('infCte')->item(0);
+            $this->fields->id = substr($infCte->getAttribute('Id'), 3) . '-' . strtolower($name);
+            $this->fields->numero = $ide->getElementsByTagName('nCT')->item(0)->nodeValue;
+            $this->fields->valor = $dom->getElementsByTagName('vRec')->item(0)->nodeValue;
+            $this->fields->data = $ide->getElementsByTagName('dhEmi')->item(0)->nodeValue;
+            $this->subject = "CTe-OS n. {$this->fields->numero} - {$this->config->fantasy}";
+            break;
+        case 'procEventoNFe':
+        case 'procEventoCTe':
+            $type = 'CCe';
+            $this->fields->chave = $dom->getElementsByTagName('chNFe')->item(0)->nodeValue;
+            $this->fields->id = $this->fields->chave.'-procCCe-'.strtolower(substr($name, -3));
+            $this->fields->data = $dom->getElementsByTagName('dhEvento')->item(0)->nodeValue;
+            $this->fields->correcao = $dom->getElementsByTagName('xCorrecao')->item(0)->nodeValue;
+            $this->fields->conduso = $dom->getElementsByTagName('xCondUso')->item(0)->nodeValue;
+            if (empty($this->fields->chave)) {
+                $this->fields->chave = $dom->getElementsByTagName('chCTe')->item(0)->nodeValue;
+            }
+            $this->subject = "Carta de Correção {$this->config->fantasy}";
+            break;
+        default:
+            $type = '';
         }
         //get email adresses from xml, if exists
         //may have one address in <dest><email>
@@ -236,9 +272,11 @@ class Base
             if (strpos($email, ';')) {
                 $emails = explode(';', $email);
 
-                $emails = array_map(function ($item) {
-                    return trim($item);
-                }, $emails);
+                $emails = array_map(
+                    function ($item) {
+                        return trim($item);
+                    }, $emails
+                );
 
                 $this->addresses = array_merge($this->addresses, $emails);
             } else {
@@ -264,8 +302,11 @@ class Base
     /**
      * Set all addresses including those that exists in the xml document
      * Send email only to listed addresses ignoring all email addresses in xml
-     * @param array $addresses
-     * @param bool $include
+     *
+     * @param array $addresses endereços
+     * @param bool  $include   adiciona ao endereço recuperado do xml
+     * 
+     * @return void
      */
     protected function setAddresses(array $addresses = [], $include = true)
     {
@@ -281,14 +322,16 @@ class Base
 
     /**
      * Render a template with valid data
-     * @param string $template
-     * @param string $destinatario
-     * @param string $data
-     * @param string $numero
-     * @param string $valor
-     * @param string $chave
-     * @param string $correcao
-     * @param string $conduso
+     *
+     * @param string $template     html do email
+     * @param string $destinatario nome do destinatario
+     * @param string $data         data de emissao
+     * @param string $numero       numero do documento
+     * @param float  $valor        valor do documento
+     * @param string $chave        chave referencial
+     * @param string $correcao     tipo de correção
+     * @param string $conduso      condição de uso
+     * 
      * @return string
      */
     protected function renderTemplate(
@@ -296,7 +339,7 @@ class Base
         $destinatario = '',
         $data = '',
         $numero = '',
-        $valor = 0,
+        $valor = 0.00,
         $chave = '',
         $correcao = '',
         $conduso = ''
@@ -328,6 +371,8 @@ class Base
     
     /**
      * Remove all invalid addresses
+     * 
+     * @return void
      */
     protected function removeInvalidAdresses()
     {
@@ -340,6 +385,7 @@ class Base
     
     /**
      * Build Message
+     *
      * @return string
      */
     protected function render()
@@ -364,6 +410,8 @@ class Base
     
     /**
      * Attach all documents to message
+     * 
+     * @return void
      */
     protected function attach()
     {
@@ -383,7 +431,9 @@ class Base
     
     /**
      * Returns only valid email string
-     * @param string $email
+     *
+     * @param string $email endereço
+     * 
      * @return boolean
      */
     protected function checkEmailAddress($email)
@@ -394,7 +444,9 @@ class Base
     /**
      * Format email address string removing garbage and
      * set to lower characters
-     * @param string $email
+     *
+     * @param string $email endereço
+     * 
      * @return string
      */
     protected function clearAddressString($email)

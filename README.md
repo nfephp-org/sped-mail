@@ -122,7 +122,6 @@ O último parametro é uma instácia já existente do PHPMailer.
 $mailer = new PHPMailer();
 ```
 
-
 Para maiores detalhes veja os exemplos indicados na pasta examples.
 
 > #### NOTA: Em caso de falha será retornado um EXCEPTION

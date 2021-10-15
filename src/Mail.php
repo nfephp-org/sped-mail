@@ -1,19 +1,18 @@
 <?php
 
-namespace NFePHP\Mail;
-
 /**
- * Class for sending emails related to SPED services
- *
- * @category  library
+ * This file belongs to the NFePHP project
+ * php version 7.0 or higher
+ * 
+ * @category  Library
  * @package   NFePHP\Mail\Mail
- * @copyright NFePHP Copyright (c) 2008-2019
- * @license   http://www.gnu.org/licenses/lgpl.txt LGPLv3+
+ * @author    Roberto L. Machado <linux.rlm@gmail.com>
+ * @copyright 2008 NFePHP Copyright (c)
  * @license   https://opensource.org/licenses/MIT MIT
- * @license   http://www.gnu.org/licenses/gpl.txt GPLv3+
- * @author    Roberto L. Machado <linux.rlm at gmail dot com>
- * @link      http://github.com/nfephp-org/sped-mail for the canonical source repository
+ * @link      http://github.com/nfephp-org/sped-mail
  */
+
+namespace NFePHP\Mail;
 
 use NFePHP\Mail\Base;
 use PHPMailer\PHPMailer\PHPMailer;
@@ -21,30 +20,49 @@ use PHPMailer\PHPMailer\SMTP;
 use Html2Text\Html2Text;
 use NFePHP\Common\Certificate;
 
-class Mail extends Base
+
+/**
+ * Class for sending emails related to SPED services
+ *
+ * @category  Library
+ * @package   NFePHP\Mail\Mail
+ * @author    Roberto L. Machado <linux.rlm@gmail.com>
+ * @copyright 2008 NFePHP Copyright (c)
+ * @license   https://opensource.org/licenses/MIT MIT
+ * @link      http://github.com/nfephp-org/sped-mail
+ */
+final class Mail extends Base
 {
     /**
      * Html Body mail message
+     *
      * @var string
      */
     public $body;
     /**
      * Subject for email
+     *
      * @var string
      */
     public $subject;
     /**
      * Certificate class
+     *
      * @var Certificate
      */
     protected $certificate;
-    
+    /**
+     * Sign email
+     *
+     * @var bool
+     */
     protected $sign = false;
 
     /**
      * Constructor
-     * @param \stdClass $config
-     * @param null|\PHPMailer\PHPMailer\PHPMailer $mailer
+     *
+     * @param \stdClass                           $config configuração
+     * @param null|\PHPMailer\PHPMailer\PHPMailer $mailer classe
      */
     public function __construct(\stdClass $config, PHPMailer $mailer = null)
     {
@@ -67,7 +85,10 @@ class Mail extends Base
 
     /**
      * Load parameters to PHPMailer class
-     * @param \stdClass $config
+     *
+     * @param \stdClass $config configuração
+     * 
+     * @return void
      */
     protected function loadService(\stdClass $config)
     {
@@ -111,7 +132,10 @@ class Mail extends Base
      * Sets a template for body mail
      * If no template is passed, it will be used a standard template
      * see Base::class
-     * @param string $htmlTemplate
+     *
+     * @param string $htmlTemplate htlm da mensagem
+     * 
+     * @return void
      */
     public function loadTemplate($htmlTemplate = '')
     {
@@ -122,8 +146,10 @@ class Mail extends Base
     
     /**
      * Enable S/MIME signed mail
-     * @param null|string $pfx
-     * @param null|string $password
+     *
+     * @param null|string $pfx      certificado pfx
+     * @param null|string $password senha
+     * 
      * @return void
      */
     public function enableSignature($pfx = null, $password = null)
@@ -139,8 +165,11 @@ class Mail extends Base
     /**
      * Load the documents to send
      * XML document is required, but PDF is not
+     *
      * @param string $xml content or path NFe, CTe or CCe in XML
      * @param string $pdf content or path document from NFe, CTe or CCe
+     * 
+     * @return void
      */
     public function loadDocuments($xml, $pdf = '')
     {
@@ -158,10 +187,12 @@ class Mail extends Base
 
     /**
      * Checks if given data is file
-     * @param  string $value
+     *
+     * @param string $value valor
+     * 
      * @return boolean
      */
-    private function isFile($value)
+    protected function isFile($value)
     {
         //se a string for maior que 500bytes, provavelmente é o conteudo
         //de um xml ou de um PDF então verificar
@@ -179,8 +210,12 @@ class Mail extends Base
      * Send mail
      * If no parameter was passed, only the email address contained in
      * the xml will be used
-     * @param array $addresses
+     *
+     * @param array $addresses endereços
+     * @param bool  $include   adiciona endereços ao recuperado do xml
+     * 
      * @return boolean
+     * 
      * @throws \RuntimeException
      */
     public function send(array $addresses = [], $include = true)
@@ -227,14 +262,16 @@ class Mail extends Base
 
     /**
      * Configure and send documents
-     * @param \stdClass $config
-     * @param string $xml
-     * @param string $pdf
-     * @param array $addresses
-     * @param string $htmltemplate
-     * @param null|string $pfx
-     * @param null|string $password
-     * @param null|PHPMailer $mailer
+     *
+     * @param \stdClass      $config       coniguração
+     * @param string         $xml          xml do doc
+     * @param string         $pdf          pdf do doc
+     * @param array          $addresses    endereços
+     * @param string         $htmltemplate template
+     * @param null|string    $pfx          certificado
+     * @param null|string    $password     senha
+     * @param null|PHPMailer $mailer       classe
+     * 
      * @return Mail
      */
     public static function sendMail(
