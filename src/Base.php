@@ -247,16 +247,20 @@ class Base
             // checks if the cancellation event exists
             $retEvento = $dom->getElementsByTagName('retEvento')->item(0);
             if (!empty($retEvento)) {
-                $infEvento = $retEvento->getElementsByTagName('infEvento')->item(0);
-                $cStat = $infEvento->getElementsByTagName('cStat')->item(0)->nodeValue;
-                $tpEvento= $infEvento->getElementsByTagName('tpEvento')->item(0)->nodeValue; 
-                if ($tpEvento == '110111' &&
+                $infEvento = $retEvento->getElementsByTagName('infEvento')
+                    ->item(0);
+                $cStat = $infEvento->getElementsByTagName('cStat')->item(0)
+                    ->nodeValue;
+                $tpEvento= $infEvento->getElementsByTagName('tpEvento')->item(0)
+                    ->nodeValue; 
+                if ($tpEvento == '110111' && 
                     ($cStat == '101' ||
                         $cStat == '151' ||
                         $cStat == '135' ||
                         $cStat == '155')
                 ) {
-                    $this->subject = "NFe CANCELADA n. {$this->fields->numero} - {$this->config->fantasy}";
+                    $this->subject = "NFe CANCELADA n. {$this->fields->numero}"
+                    ." - {$this->config->fantasy}";
                 }
             }
             break;
