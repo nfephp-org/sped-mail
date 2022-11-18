@@ -258,6 +258,7 @@ class Base
                 ) {
                     $this->subject = "NFe CANCELADA n. {$this->fields->numero} - {$this->config->fantasy}";
                 }
+            }
             break;
         case 'cteProc':
         case 'CTe':
