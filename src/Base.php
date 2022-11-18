@@ -253,11 +253,9 @@ class Base
                     ->nodeValue;
                 $tpEvento= $infEvento->getElementsByTagName('tpEvento')->item(0)
                     ->nodeValue; 
-                if ($tpEvento == '110111' && 
-                    ($cStat == '101' ||
-                        $cStat == '151' ||
-                        $cStat == '135' ||
-                        $cStat == '155')
+                if ($tpEvento == '110111' 
+                    && ($cStat == '101' || $cStat == '151' || $cStat == '135' 
+                        || $cStat == '155')
                 ) {
                     $this->subject = "NFe CANCELADA n. {$this->fields->numero}"
                     ." - {$this->config->fantasy}";
